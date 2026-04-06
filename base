@@ -136,7 +136,7 @@ let leadData = {
   score: 0
 };
 
-const cidadesAtendidas = ["sorocaba","campinas","são paulo"];
+const cidadesAtendidas = ["sorocaba","campinas","sao paulo"];
 
 function updateProgress(step){
   document.getElementById("progressBar").style.width = (step * 25) + "%";
@@ -152,9 +152,83 @@ function setType(tipo){
   } else {
     leadData.score += 50;
     document.getElementById("step2").classList.remove("hidden");
-    updateProgress(2);
+    updateProgress(1);
   }
 }
+
+// 🔥 NORMALIZAÇÃO CORRIGIDA
+function normalize(text){
+  return text
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function validateCity(){
+  const input = document.getElementById("cidade").value;
+  const cidade = normalize(input);
+
+  leadData.cidade = cidade;
+
+  document.getElementById("step2").classList.add("hidden");
+
+  if(cidadesAtendidas.includes(cidade)){
+    leadData.cidade_valida = true;
+    leadData.score += 30;
+
+    document.getElementById("step3").classList.remove("hidden");
+    updateProgress(2);
+  } else {
+    leadData.score -= 50;
+    document.getElementById("blockCity").classList.remove("hidden");
+  }
+}
+
+function nextStep(){
+  leadData.urgencia = document.getElementById("urgencia").value;
+
+  if(leadData.urgencia === "alta"){
+    leadData.score += 10;
+  }
+
+  document.getElementById("step3").classList.add("hidden");
+  document.getElementById("step4").classList.remove("hidden");
+  updateProgress(3);
+}
+
+function submitForm(){
+
+  const telefone = document.getElementById("telefone").value;
+
+  if(telefone.replace(/\D/g, "").length >= 10){
+    leadData.score += 10;
+  }
+
+  document.getElementById("step4").classList.add("hidden");
+  document.getElementById("success").classList.remove("hidden");
+  updateProgress(4);
+
+  // DATA LAYER
+  window.dataLayer = window.dataLayer || [];
+  
+  window.dataLayer.push({
+    event: "lead_submit",
+    ...leadData
+  });
+
+  if(leadData.score >= 70){
+    window.dataLayer.push({
+      event: "lead_qualificado",
+      ...leadData
+    });
+  }
+
+  console.log("Lead enviado:", leadData); // DEBUG
+
+}
+
+</script>
 
 function normalize(text){
   return text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
