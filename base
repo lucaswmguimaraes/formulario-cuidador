@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encontre um Cuidador</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f5f5f5;
+  margin: 0;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  min-height: 100vh;
+}
+
+.progress {
+  height: 6px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 6px;
+  width: 25%;
+  background: #2e7d32;
+  border-radius: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border: none;
+  background: #2e7d32;
+  color: white;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+<!-- STEP 1 -->
+<div id="step1">
+<h2>O que você procura?</h2>
+
+<button onclick="setType('cliente')">Preciso de um cuidador</button>
+<button onclick="setType('cuidador')">Sou cuidador procurando trabalho</button>
+</div>
+
+<!-- BLOQUEIO -->
+<div id="blockUser" class="hidden">
+<h2>❌ Atenção</h2>
+<p>Este formulário é exclusivo para famílias que buscam cuidadores.</p>
+</div>
+
+<!-- STEP 2 -->
+<div id="step2" class="hidden">
+<h2>Onde será o atendimento?</h2>
+<input type="text" id="cidade" placeholder="Digite a cidade">
+<button onclick="validateCity()">Continuar</button>
+</div>
+
+<!-- BLOQUEIO CIDADE -->
+<div id="blockCity" class="hidden">
+<h2>📍 Região não atendida</h2>
+<p>Estamos expandindo! Em breve chegaremos até você.</p>
+</div>
+
+<!-- STEP 3 -->
+<div id="step3" class="hidden">
+<h2>Sobre o cuidado</h2>
+
+<select id="urgencia">
+<option value="">Urgência</option>
+<option value="alta">Urgente</option>
+<option value="baixa">Planejando</option>
+</select>
+
+<select id="periodo">
+<option value="">Período</option>
+<option>Integral</option>
+<option>Noturno</option>
+<option>Horas</option>
+</select>
+
+<button onclick="nextStep()">Continuar</button>
+</div>
+
+<!-- STEP 4 -->
+<div id="step4" class="hidden">
+<h2>Seus dados</h2>
+
+<input type="text" id="nome" placeholder="Nome">
+<input type="tel" id="telefone" placeholder="WhatsApp">
+
+<button onclick="submitForm()">Enviar</button>
+</div>
+
+<div id="success" class="hidden">
+<h2>✅ Enviado!</h2>
+</div>
+
+</div>
+
+<script>
+
+let leadData = {
+  tipo: "",
+  cidade: "",
+  cidade_valida: false,
+  urgencia: "",
+  score: 0
+};
+
+const cidadesAtendidas = ["sorocaba","campinas","são paulo"];
+
+function updateProgress(step){
+  document.getElementById("progressBar").style.width = (step * 25) + "%";
+}
+
+function setType(tipo){
+  leadData.tipo = tipo;
+  document.getElementById("step1").classList.add("hidden");
+
+  if(tipo === "cuidador"){
+    leadData.score -= 100;
+    document.getElementById("blockUser").classList.remove("hidden");
+  } else {
+    leadData.score += 50;
+    document.getElementById("step2").classList.remove("hidden");
+    updateProgress(2);
+  }
+}
+
+function normalize(text){
+  return text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+
+function validateCity(){
+  const cidade = normalize(document.getElementById("cidade").value);
+
+  leadData.cidade = cidade;
+
+  document.getElementById("step2").classList.add("hidden");
+
+  if(cidadesAtendidas.includes(cidade)){
+    leadData.cidade_valida = true;
+    leadData.score += 30;
+
+    document.getElementById("step3").classList.remove("hidden");
+    updateProgress(3);
+  } else {
+    leadData.score -= 50;
+    document.getElementById("blockCity").classList.remove("hidden");
+  }
+}
+
+function nextStep(){
+  leadData.urgencia = document.getElementById("urgencia").value;
+
+  if(leadData.urgencia === "alta"){
+    leadData.score += 10;
+  }
+
+  document.getElementById("step3").classList.add("hidden");
+  document.getElementById("step4").classList.remove("hidden");
+  updateProgress(4);
+}
+
+function submitForm(){
+
+  if(document.getElementById("telefone").value.length > 8){
+    leadData.score += 10;
+  }
+
+  document.getElementById("step4").classList.add("hidden");
+  document.getElementById("success").classList.remove("hidden");
+
+  // DATA LAYER
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "lead_submit",
+    ...leadData
+  });
+
+  if(leadData.score >= 70){
+    window.dataLayer.push({
+      event: "lead_qualificado",
+      ...leadData
+    });
+  }
+
+}
+
+</script>
+
+</body>
+</html>
