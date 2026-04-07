@@ -2,1487 +2,646 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Encontre um Cuidador | Nonno</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --nonno-green: #1D6E4F;
-    --nonno-green-light: #E8F5EE;
-    --nonno-green-mid: #2E8A63;
-    --nonno-text: #1C1C1C;
-    --nonno-muted: #6B7280;
-    --nonno-border: #E5E7EB;
-    --nonno-bg: #F9FAFB;
-    --nonno-white: #FFFFFF;
-    --nonno-danger: #DC2626;
-    --nonno-warning: #F59E0B;
-    --nonno-warning-bg: #FFFBEB;
-    --score-high: #16A34A;
-    --score-mid: #D97706;
-    --score-low: #DC2626;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--nonno-bg);
-    color: var(--nonno-text);
-    min-height: 100vh;
-  }
-
-  /* Header */
-  .header {
-    background: var(--nonno-white);
-    border-bottom: 1px solid var(--nonno-border);
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.5rem;
-    color: var(--nonno-green);
-    text-decoration: none;
-  }
-
-  .header-badge {
-    font-size: 0.75rem;
-    background: var(--nonno-green-light);
-    color: var(--nonno-green);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  /* Hero */
-  .hero {
-    background: var(--nonno-green);
-    color: white;
-    padding: 2.5rem 1.5rem 2rem;
-    text-align: center;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    color: white;
-    font-size: 0.75rem;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 1rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.9rem;
-    font-weight: 400;
-    line-height: 1.25;
-    margin-bottom: 0.75rem;
-  }
-
-  .hero p {
-    color: rgba(255,255,255,0.8);
-    font-size: 0.95rem;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-
-  /* Trust bar */
-  .trust-bar {
-    background: rgba(255,255,255,0.08);
-    padding: 0.75rem 1.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .trust-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.85);
-  }
-
-  .trust-icon {
-    font-size: 0.9rem;
-  }
-
-  /* Progress */
-  .progress-wrapper {
-    background: var(--nonno-white);
-    border-bottom: 1px solid var(--nonno-border);
-    padding: 1rem 1.5rem;
-    position: sticky;
-    top: 60px;
-    z-index: 90;
-  }
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.78rem;
-    color: var(--nonno-muted);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .progress-bar {
-    height: 4px;
-    background: var(--nonno-border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--nonno-green);
-    border-radius: 4px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-
-  /* Steps */
-  .step-container {
-    max-width: 560px;
-    margin: 0 auto;
-    padding: 1.5rem 1rem 6rem;
-  }
-
-  .step {
-    display: none;
-    animation: fadeSlide 0.3s ease;
-  }
-
-  .step.active { display: block; }
-
-  @keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .step-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--nonno-border);
-  }
-
-  .step-number {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--nonno-green);
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .step-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    font-weight: 400;
-    color: var(--nonno-text);
-    margin-bottom: 4px;
-  }
-
-  .step-desc {
-    font-size: 0.875rem;
-    color: var(--nonno-muted);
-  }
-
-  /* Option cards */
-  .options-grid {
-    display: grid;
-    gap: 10px;
-    margin-bottom: 1.5rem;
-  }
-
-  .options-grid.two-col {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .option-card {
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 12px;
-    padding: 1rem;
-    cursor: pointer;
-    background: var(--nonno-white);
-    transition: all 0.2s ease;
-    text-align: left;
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    position: relative;
-  }
-
-  .option-card:hover {
-    border-color: var(--nonno-green-mid);
-    background: var(--nonno-green-light);
-  }
-
-  .option-card.selected {
-    border-color: var(--nonno-green);
-    background: var(--nonno-green-light);
-  }
-
-  .option-card.selected::after {
-    content: '✓';
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    background: var(--nonno-green);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    line-height: 20px;
-    text-align: center;
-  }
-
-  .option-icon {
-    font-size: 1.4rem;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .option-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--nonno-text);
-    line-height: 1.3;
-  }
-
-  .option-sub {
-    font-size: 0.78rem;
-    color: var(--nonno-muted);
-    margin-top: 2px;
-  }
-
-  /* Alert — disqualification */
-  .alert-disqualify {
-    background: #FEF2F2;
-    border: 1.5px solid #FCA5A5;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-top: 1rem;
-    display: none;
-  }
-
-  .alert-disqualify.show { display: block; }
-
-  .alert-disqualify h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--nonno-danger);
-    margin-bottom: 6px;
-  }
-
-  .alert-disqualify p {
-    font-size: 0.85rem;
-    color: #7F1D1D;
-    line-height: 1.5;
-  }
-
-  .alert-disqualify a {
-    color: var(--nonno-danger);
-    font-weight: 600;
-  }
-
-  /* Alert — out of coverage */
-  .alert-coverage {
-    background: var(--nonno-warning-bg);
-    border: 1.5px solid #FCD34D;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-top: 1rem;
-    display: none;
-  }
-
-  .alert-coverage.show { display: block; }
-
-  .alert-coverage h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #92400E;
-    margin-bottom: 6px;
-  }
-
-  .alert-coverage p {
-    font-size: 0.85rem;
-    color: #78350F;
-    line-height: 1.5;
-  }
-
-  /* Form fields */
-  .field-group {
-    margin-bottom: 1.25rem;
-  }
-
-  .field-label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--nonno-text);
-    margin-bottom: 6px;
-  }
-
-  .field-label span {
-    color: var(--nonno-danger);
-    margin-left: 2px;
-  }
-
-  .field-input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 10px;
-    font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--nonno-text);
-    background: var(--nonno-white);
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-  }
-
-  .field-input:focus {
-    outline: none;
-    border-color: var(--nonno-green);
-    box-shadow: 0 0 0 3px rgba(29, 110, 79, 0.08);
-  }
-
-  .field-input.error {
-    border-color: var(--nonno-danger);
-  }
-
-  .field-error {
-    font-size: 0.78rem;
-    color: var(--nonno-danger);
-    margin-top: 4px;
-    display: none;
-  }
-
-  .field-error.show { display: block; }
-
-  .field-hint {
-    font-size: 0.78rem;
-    color: var(--nonno-muted);
-    margin-top: 4px;
-  }
-
-  /* Select */
-  .field-select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 10px;
-    font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--nonno-text);
-    background: var(--nonno-white);
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236B7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 40px;
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
-
-  .field-select:focus {
-    outline: none;
-    border-color: var(--nonno-green);
-    box-shadow: 0 0 0 3px rgba(29, 110, 79, 0.08);
-  }
-
-  /* City autocomplete */
-  .autocomplete-wrapper {
-    position: relative;
-  }
-
-  .autocomplete-dropdown {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    background: var(--nonno-white);
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 10px;
-    max-height: 220px;
-    overflow-y: auto;
-    z-index: 200;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    display: none;
-  }
-
-  .autocomplete-dropdown.open { display: block; }
-
-  .autocomplete-item {
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--nonno-border);
-    transition: background 0.15s;
-  }
-
-  .autocomplete-item:last-child { border-bottom: none; }
-
-  .autocomplete-item:hover { background: var(--nonno-green-light); }
-
-  .autocomplete-item.covered .badge {
-    font-size: 0.7rem;
-    background: var(--nonno-green-light);
-    color: var(--nonno-green);
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .autocomplete-item.not-covered .badge {
-    font-size: 0.7rem;
-    background: #FEF3C7;
-    color: #92400E;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .coverage-warning {
-    background: var(--nonno-warning-bg);
-    border: 1.5px solid #FCD34D;
-    border-radius: 10px;
-    padding: 12px;
-    margin-top: 8px;
-    font-size: 0.83rem;
-    color: #78350F;
-    display: none;
-  }
-
-  .coverage-warning.show { display: block; }
-
-  /* Checkbox */
-  .checkbox-wrapper {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 1rem;
-    background: var(--nonno-bg);
-    border-radius: 10px;
-    border: 1px solid var(--nonno-border);
-    margin-bottom: 1.25rem;
-  }
-
-  .checkbox-wrapper input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    margin-top: 1px;
-    accent-color: var(--nonno-green);
-    cursor: pointer;
-  }
-
-  .checkbox-wrapper label {
-    font-size: 0.82rem;
-    color: var(--nonno-muted);
-    line-height: 1.5;
-    cursor: pointer;
-  }
-
-  .checkbox-wrapper a {
-    color: var(--nonno-green);
-    font-weight: 500;
-    text-decoration: none;
-  }
-
-  /* Buttons */
-  .btn-primary {
-    width: 100%;
-    padding: 15px;
-    background: var(--nonno-green);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .btn-primary:hover { background: var(--nonno-green-mid); }
-  .btn-primary:active { transform: scale(0.99); }
-  .btn-primary:disabled { background: #9CA3AF; cursor: not-allowed; }
-
-  .btn-secondary {
-    width: 100%;
-    padding: 14px;
-    background: transparent;
-    color: var(--nonno-muted);
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 12px;
-    font-size: 0.9rem;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: all 0.2s;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--nonno-green);
-    color: var(--nonno-green);
-  }
-
-  /* Nav buttons */
-  .nav-buttons {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 1.5rem;
-  }
-
-  .btn-back {
-    padding: 14px 18px;
-    background: transparent;
-    color: var(--nonno-muted);
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .btn-back:hover {
-    border-color: var(--nonno-green);
-    color: var(--nonno-green);
-  }
-
-  .btn-next {
-    flex: 1;
-    padding: 14px;
-    background: var(--nonno-green);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .btn-next:hover { background: var(--nonno-green-mid); }
-  .btn-next:disabled { background: #9CA3AF; cursor: not-allowed; }
-
-  /* Summary card */
-  .summary-card {
-    background: var(--nonno-white);
-    border: 1.5px solid var(--nonno-border);
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .summary-card h3 {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--nonno-muted);
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 0.875rem;
-    border-bottom: 1px solid var(--nonno-border);
-  }
-
-  .summary-row:last-child { border-bottom: none; }
-
-  .summary-row .label { color: var(--nonno-muted); }
-  .summary-row .value { font-weight: 500; color: var(--nonno-text); text-align: right; max-width: 60%; }
-
-  /* Score badge (dev mode) */
-  .score-badge {
-    position: fixed;
-    bottom: 80px;
-    right: 16px;
-    background: var(--nonno-text);
-    color: white;
-    border-radius: 12px;
-    padding: 8px 14px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    z-index: 999;
-    display: none;
-  }
-
-  /* Success */
-  .success-screen {
-    text-align: center;
-    padding: 2rem 0;
-  }
-
-  .success-icon {
-    width: 72px;
-    height: 72px;
-    background: var(--nonno-green-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    font-size: 2rem;
-  }
-
-  .success-screen h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
-    margin-bottom: 0.75rem;
-  }
-
-  .success-screen p {
-    color: var(--nonno-muted);
-    font-size: 0.9rem;
-    max-width: 340px;
-    margin: 0 auto 1.5rem;
-    line-height: 1.6;
-  }
-
-  .whatsapp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #25D366;
-    color: white;
-    padding: 14px 24px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-  }
-
-  /* Step indicator dots */
-  .steps-dots {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 0.75rem 0;
-    margin-bottom: 0.5rem;
-  }
-
-  .step-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--nonno-border);
-    transition: all 0.3s;
-  }
-
-  .step-dot.active {
-    background: var(--nonno-green);
-    width: 20px;
-    border-radius: 4px;
-  }
-
-  .step-dot.done {
-    background: var(--nonno-green);
-    opacity: 0.4;
-  }
-
-  /* Fixed bottom CTA */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--nonno-white);
-    border-top: 1px solid var(--nonno-border);
-    padding: 1rem;
-    z-index: 100;
-  }
-
-  /* Info tooltip */
-  .field-info {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    background: var(--nonno-green-light);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 1rem;
-    font-size: 0.82rem;
-    color: var(--nonno-green);
-    line-height: 1.4;
-  }
-
-  @media (min-width: 600px) {
-    .step-container { padding: 2rem 1.5rem 7rem; }
-    .hero h1 { font-size: 2.2rem; }
-    .options-grid.two-col { grid-template-columns: 1fr 1fr; }
-  }
+:root {
+  --verde:        #2C6E49;
+  --verde-escuro: #1E4D34;
+  --verde-claro:  #EAF2EC;
+  --verde-mid:    #3A8A5C;
+  --verde-borda:  #B2D4BC;
+  --dourado:      #C8954A;
+  --dourado-bg:   #FDF6EC;
+  --cinza-bg:     #F7F7F5;
+  --cinza-card:   #FFFFFF;
+  --cinza-borda:  #E2E2DE;
+  --cinza-texto:  #4A4A42;
+  --cinza-muted:  #7E7E74;
+  --preto:        #1A1A16;
+  --danger:       #C0392B;
+  --danger-bg:    #FDF0EF;
+  --warning-bg:   #FFFBF0;
+  --warning-borda:#F0D49A;
+  --warning-text: #7A5C1E;
+  --font-serif:   'Playfair Display', Georgia, serif;
+  --font-sans:    'Lato', Arial, sans-serif;
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    16px;
+  --shadow-card:  0 1px 4px rgba(0,0,0,0.07);
+  --shadow-btn:   0 2px 8px rgba(44,110,73,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--cinza-bg);color:var(--preto);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* HEADER */
+.site-header{background:#fff;border-bottom:1px solid var(--cinza-borda);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.site-header img{height:36px;width:auto;display:block}
+.header-tel{font-size:0.75rem;font-weight:700;color:var(--verde);text-decoration:none;display:flex;align-items:center;gap:5px}
+.header-tel svg{width:14px;height:14px;fill:var(--verde)}
+
+/* HERO */
+.hero{background:var(--verde);background-image:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 55%,#3A8A5C 100%);padding:28px 20px 34px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.hero::after{content:'';position:absolute;bottom:-30px;left:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.03)}
+.hero-pill{display:inline-block;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.18)}
+.hero h1{font-family:var(--font-serif);font-size:1.65rem;font-weight:400;color:#fff;line-height:1.25;margin-bottom:10px;letter-spacing:-0.01em}
+.hero h1 em{font-style:italic;font-weight:600}
+.hero-sub{color:rgba(255,255,255,0.78);font-size:0.875rem;line-height:1.55;max-width:340px;margin:0 auto 20px}
+.hero-trust{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 16px}
+.trust-chip{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,0.85);font-size:0.73rem}
+.trust-dot{width:15px;height:15px;background:rgba(255,255,255,0.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0}
+
+/* PROGRESS */
+.prog-rail{background:#fff;border-bottom:1px solid var(--cinza-borda);padding:12px 20px;position:sticky;top:64px;z-index:100}
+.prog-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-lbl{font-size:0.7rem;font-weight:700;color:var(--verde);letter-spacing:0.06em;text-transform:uppercase}
+.prog-pct{font-size:0.7rem;color:var(--cinza-muted);font-weight:700}
+.prog-track{height:3px;background:var(--cinza-borda);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--verde);border-radius:3px;transition:width 0.4s cubic-bezier(.4,0,.2,1);width:20%}
+
+/* STEPS */
+.steps-outer{max-width:540px;margin:0 auto;padding:22px 16px 100px}
+.step{display:none}
+.step.active{display:block;animation:stepIn 0.28s cubic-bezier(.4,0,.2,1)}
+@keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* STEP HEADER */
+.step-head{margin-bottom:20px}
+.step-eyebrow{font-size:0.67rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:5px}
+.step-title{font-family:var(--font-serif);font-size:1.3rem;font-weight:400;color:var(--preto);line-height:1.3;margin-bottom:4px}
+.step-desc{font-size:0.82rem;color:var(--cinza-muted);line-height:1.5}
+
+/* DOTS */
+.dots{display:flex;justify-content:center;gap:5px;margin-bottom:18px}
+.dot{height:5px;width:5px;border-radius:3px;background:var(--cinza-borda);transition:all 0.3s ease}
+.dot.act{width:18px;background:var(--verde)}
+.dot.done{background:var(--verde);opacity:0.35}
+
+/* OPTION CARDS */
+.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.opts.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.opt{background:var(--cinza-card);border:1.5px solid var(--cinza-borda);border-radius:var(--radius-md);padding:13px 13px 13px 12px;cursor:pointer;display:flex;align-items:flex-start;gap:11px;text-align:left;width:100%;transition:border-color .18s,background .18s,box-shadow .18s;position:relative;box-shadow:var(--shadow-card)}
+.opt:hover{border-color:var(--verde-borda);background:var(--verde-claro)}
+.opt.sel{border-color:var(--verde);background:var(--verde-claro);box-shadow:0 0 0 1px var(--verde)}
+.opt-chk{position:absolute;top:10px;right:10px;width:18px;height:18px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}
+.opt.sel .opt-chk{opacity:1}
+.opt-chk svg{width:10px;height:10px;stroke:#fff;stroke-width:2.5;fill:none}
+.opt-icon{width:38px;height:38px;border-radius:10px;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:background .18s}
+.opt.sel .opt-icon{background:var(--verde-borda)}
+.opt-text{flex:1;padding-top:1px}
+.opt-name{font-size:0.87rem;font-weight:700;color:var(--preto);line-height:1.25;margin-bottom:2px}
+.opt-sub{font-size:0.74rem;color:var(--cinza-muted);line-height:1.4}
+.opts.g2 .opt{flex-direction:column;align-items:flex-start;padding:13px;gap:8px}
+.opts.g2 .opt-icon{width:34px;height:34px;font-size:1rem}
+.opts.g2 .opt-name{font-size:0.82rem}
+.opts.g2 .opt-sub{font-size:0.71rem}
+.revenue-chip{display:inline-flex;align-items:center;gap:3px;background:var(--dourado-bg);border:1px solid #E8C97A;color:var(--dourado);font-size:0.66rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:4px}
+
+/* ALERTS */
+.alert{border-radius:var(--radius-md);padding:13px 15px;margin-top:4px;margin-bottom:4px;display:none;animation:stepIn .2s ease}
+.alert.show{display:block}
+.alert-danger{background:var(--danger-bg);border:1.5px solid #EDAAA5}
+.alert-warning{background:var(--warning-bg);border:1.5px solid var(--warning-borda)}
+.alert h3{font-size:0.84rem;font-weight:700;margin-bottom:5px}
+.alert-danger h3{color:var(--danger)}
+.alert-warning h3{color:var(--warning-text)}
+.alert p{font-size:0.79rem;line-height:1.55}
+.alert-danger p{color:#7B2020}
+.alert-warning p{color:var(--warning-text)}
+.alert a{font-weight:700;text-decoration:underline}
+.alert-danger a{color:var(--danger)}
+.alert-warning a{color:var(--warning-text)}
+
+/* FORM */
+.field{margin-bottom:15px}
+.field-lbl{display:block;font-size:0.79rem;font-weight:700;color:var(--cinza-texto);margin-bottom:6px;letter-spacing:.01em}
+.field-lbl sup{color:var(--danger);margin-left:1px}
+.field-inp,.field-sel{width:100%;padding:13px 14px;border:1.5px solid var(--cinza-borda);border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:0.93rem;color:var(--preto);background:#fff;transition:border-color .18s,box-shadow .18s;-webkit-appearance:none;appearance:none}
+.field-inp:focus,.field-sel:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+.field-inp.err{border-color:var(--danger)}
+.field-sel{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%237E7E74' d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:38px;cursor:pointer}
+.field-err{font-size:0.73rem;color:var(--danger);margin-top:4px;display:none}
+.field-err.show{display:block}
+.field-hint{font-size:0.73rem;color:var(--cinza-muted);margin-top:4px}
+textarea.field-inp{resize:vertical;min-height:80px}
+
+/* AUTOCOMPLETE */
+.ac-wrap{position:relative}
+.ac-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--cinza-borda);border-radius:var(--radius-md);max-height:230px;overflow-y:auto;z-index:300;box-shadow:0 6px 20px rgba(0,0,0,.1);display:none}
+.ac-drop.open{display:block}
+.ac-item{padding:11px 14px;font-size:0.86rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--cinza-borda);transition:background .12s;color:var(--preto)}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover{background:var(--verde-claro)}
+.ac-badge{font-size:0.66rem;padding:2px 8px;border-radius:20px;font-weight:700;flex-shrink:0;margin-left:8px}
+.ac-badge.ok{background:var(--verde-claro);color:var(--verde)}
+.ac-badge.nok{background:var(--warning-bg);color:var(--warning-text)}
+.cov-warn{background:var(--warning-bg);border:1.5px solid var(--warning-borda);border-radius:var(--radius-sm);padding:10px 12px;font-size:0.77rem;color:var(--warning-text);margin-top:7px;line-height:1.5;display:none}
+.cov-warn.show{display:block}
+
+/* CHECKBOX */
+.check-row{display:flex;align-items:flex-start;gap:10px;background:var(--cinza-bg);border:1px solid var(--cinza-borda);border-radius:var(--radius-sm);padding:12px;margin-bottom:16px}
+.check-row input[type=checkbox]{width:17px;height:17px;accent-color:var(--verde);flex-shrink:0;margin-top:1px;cursor:pointer}
+.check-row label{font-size:0.77rem;color:var(--cinza-muted);line-height:1.5;cursor:pointer}
+.check-row label a{color:var(--verde);font-weight:700;text-decoration:none}
+
+/* BUTTONS */
+.nav-row{display:flex;gap:10px;margin-top:20px}
+.btn-back{flex-shrink:0;padding:14px 18px;border:1.5px solid var(--cinza-borda);border-radius:var(--radius-md);background:transparent;font-family:var(--font-sans);font-size:0.84rem;color:var(--cinza-muted);cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-back:hover{border-color:var(--verde);color:var(--verde)}
+.btn-next,.btn-submit{flex:1;padding:15px;background:var(--verde);color:#fff;border:none;border-radius:var(--radius-md);font-family:var(--font-sans);font-size:0.93rem;font-weight:700;letter-spacing:.01em;cursor:pointer;box-shadow:var(--shadow-btn);transition:background .18s,transform .1s}
+.btn-next:hover,.btn-submit:hover{background:var(--verde-mid)}
+.btn-next:active,.btn-submit:active{transform:scale(0.99)}
+.btn-next:disabled,.btn-submit:disabled{background:#C5C5BF;box-shadow:none;cursor:not-allowed}
+.btn-full{width:100%;padding:15px;background:var(--verde);color:#fff;border:none;border-radius:var(--radius-md);font-family:var(--font-sans);font-size:0.93rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow-btn);transition:background .18s,transform .1s}
+.btn-full:hover{background:var(--verde-mid)}
+.btn-full:active{transform:scale(0.99)}
+.btn-full:disabled{background:#C5C5BF;box-shadow:none;cursor:not-allowed}
+
+/* BOTTOM NAV */
+.btm{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--cinza-borda);padding:12px 16px;z-index:150}
+.btm.hidden{display:none}
+
+/* SUMMARY */
+.summary{background:var(--verde-claro);border:1.5px solid var(--verde-borda);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:18px}
+.sum-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--verde);margin-bottom:10px}
+.sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--verde-borda);gap:12px}
+.sum-row:last-child{border-bottom:none}
+.sum-lbl{font-size:0.77rem;color:var(--cinza-muted);white-space:nowrap}
+.sum-val{font-size:0.81rem;font-weight:700;color:var(--verde-escuro);text-align:right}
+
+/* INFO BOX */
+.info-box{display:flex;gap:9px;background:var(--verde-claro);border-left:3px solid var(--verde);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 12px;margin-bottom:16px;font-size:0.78rem;color:var(--verde-escuro);line-height:1.5}
+
+/* SECTION DIVIDER */
+.sect-divider{border-top:1px solid var(--cinza-borda);margin:20px 0 18px;padding-top:18px}
+.sect-divider .step-title{font-size:1.1rem}
+
+/* SUCCESS */
+.success-wrap{text-align:center;padding:32px 0 16px}
+.success-ring{width:76px;height:76px;background:var(--verde-claro);border:2.5px solid var(--verde-borda);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:2rem}
+.success-wrap h2{font-family:var(--font-serif);font-size:1.5rem;font-weight:400;color:var(--preto);margin-bottom:10px}
+.success-wrap p{font-size:0.875rem;color:var(--cinza-muted);line-height:1.6;max-width:320px;margin:0 auto 24px}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:14px 22px;border-radius:var(--radius-md);text-decoration:none;font-weight:700;font-size:0.9rem;box-shadow:0 2px 10px rgba(37,211,102,.3)}
+
+@media(min-width:560px){
+  .hero h1{font-size:1.95rem}
+  .steps-outer{padding:26px 20px 110px}
+  .step-title{font-size:1.4rem}
+}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <a href="https://nonnoapp.com" class="logo">Nonno</a>
-  <span class="header-badge">Cuidadores Selecionados</span>
+<header class="site-header">
+  <a href="https://nonnoapp.com">
+    <img src="https://i0.wp.com/nonnoapp.com/wp-content/uploads/2024/02/Nonno-Marca-registrada-10.png?fit=800%2C331&ssl=1" alt="Nonno Cuidadores">
+  </a>
+  <a href="tel:08006022323" class="header-tel">
+    <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.58a1 1 0 0 1-.25 1.01L6.62 10.79z"/></svg>
+    0800 602 2323
+  </a>
 </header>
 
 <section class="hero">
-  <span class="hero-badge">Orçamento Express</span>
-  <h1>Encontre o cuidador ideal para sua família</h1>
-  <p>Responda algumas perguntas e receba uma proposta personalizada em minutos</p>
-  <div class="trust-bar" style="margin-top:1rem;">
-    <span class="trust-item"><span class="trust-icon">✓</span> Profissionais verificados</span>
-    <span class="trust-item"><span class="trust-icon">✓</span> Sem contratos fechados</span>
-    <span class="trust-item"><span class="trust-icon">✓</span> Resposta em minutos</span>
+  <div class="hero-pill">Orçamento Express</div>
+  <h1>Encontre o cuidador <em>certo</em><br>para sua família</h1>
+  <p class="hero-sub">Preencha em menos de 2 minutos e receba uma proposta personalizada</p>
+  <div class="hero-trust">
+    <span class="trust-chip"><span class="trust-dot">✓</span> Profissionais verificados</span>
+    <span class="trust-chip"><span class="trust-dot">✓</span> Sem contratos fechados</span>
+    <span class="trust-chip"><span class="trust-dot">✓</span> Resposta em minutos</span>
   </div>
 </section>
 
-<div class="progress-wrapper">
-  <div class="progress-label">
-    <span id="progress-text">Passo 1 de 5</span>
-    <span id="progress-pct">20%</span>
+<div class="prog-rail" id="prog-rail">
+  <div class="prog-meta">
+    <span class="prog-lbl" id="prog-lbl">Etapa 1 de 5</span>
+    <span class="prog-pct" id="prog-pct">20%</span>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress-fill"></div>
-  </div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
 </div>
 
-<div class="step-container">
+<div class="steps-outer">
 
-  <!-- STEP 1: Quem é você? -->
-  <div class="step active" id="step-1">
-    <div class="steps-dots">
-      <div class="step-dot active"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
+  <!-- S1: Intenção -->
+  <div class="step active" id="s1">
+    <div class="dots"><div class="dot act"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="step-head">
+      <div class="step-eyebrow">Etapa 1 de 5</div>
+      <div class="step-title">Por que você está aqui hoje?</div>
+      <div class="step-desc">Isso garante que vamos te direcionar corretamente.</div>
     </div>
-    <div class="step-header">
-      <div class="step-number">Etapa 1 de 5</div>
-      <div class="step-title">Por que você está aqui?</div>
-      <div class="step-desc">Isso nos ajuda a direcionar você corretamente.</div>
-    </div>
-
-    <div class="options-grid">
-      <button class="option-card" data-value="busco-cuidador" onclick="selectOption(this, 'intent')">
-        <span class="option-icon">👵</span>
-        <div>
-          <div class="option-label">Preciso de um cuidador</div>
-          <div class="option-sub">Para um familiar ou pessoa próxima</div>
+    <div class="opts">
+      <button class="opt" data-val="busco" onclick="pick(this,'intent')">
+        <div class="opt-icon">👵</div>
+        <div class="opt-text">
+          <div class="opt-name">Preciso de um cuidador</div>
+          <div class="opt-sub">Para um familiar ou pessoa próxima que precisa de cuidados</div>
         </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="sou-cuidador" onclick="selectOption(this, 'intent')">
-        <span class="option-icon">💼</span>
-        <div>
-          <div class="option-label">Quero trabalhar como cuidador</div>
-          <div class="option-sub">Busco oportunidades de emprego</div>
+      <button class="opt" data-val="emprego" onclick="pick(this,'intent')">
+        <div class="opt-icon">💼</div>
+        <div class="opt-text">
+          <div class="opt-name">Quero trabalhar como cuidador</div>
+          <div class="opt-sub">Busco oportunidades de emprego na área</div>
         </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="informacao" onclick="selectOption(this, 'intent')">
-        <span class="option-icon">❓</span>
-        <div>
-          <div class="option-label">Só estou conhecendo o Nonno</div>
-          <div class="option-sub">Tenho dúvidas sobre o serviço</div>
+      <button class="opt" data-val="duvida" onclick="pick(this,'intent')">
+        <div class="opt-icon">❓</div>
+        <div class="opt-text">
+          <div class="opt-name">Tenho dúvidas sobre o Nonno</div>
+          <div class="opt-sub">Quero entender como o serviço funciona antes de decidir</div>
         </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
     </div>
-
-    <div class="alert-disqualify" id="alert-cuidador">
-      <h3>Você quer trabalhar como cuidador?</h3>
-      <p>Ótimo! Mas esta página é para quem <strong>contrata</strong> cuidadores. Para se cadastrar como profissional, <a href="https://nonnoapp.com/cadastro-cuidador/" target="_blank">clique aqui</a> e preencha o formulário correto. Nossa equipe de seleção entrará em contato.</p>
+    <div class="alert alert-danger" id="alert-emprego">
+      <h3>Você quer se cadastrar como cuidador?</h3>
+      <p>Esta página é destinada a quem <strong>contrata</strong> cuidadores. Para se cadastrar como profissional, <a href="https://nonnoapp.com/cadastro-cuidador/" target="_blank">acesse o cadastro de cuidadores →</a></p>
     </div>
-
-    <div class="alert-disqualify" id="alert-informacao">
-      <h3>Tire suas dúvidas conosco!</h3>
-      <p>Nossa equipe está disponível para responder qualquer dúvida. Fale diretamente pelo <a href="https://wa.me/5548991361825" target="_blank">WhatsApp: (48) 9913-61825</a> ou continue o formulário para receber uma proposta.</p>
+    <div class="alert alert-warning" id="alert-duvida">
+      <h3>Pode continuar sem problema!</h3>
+      <p>Preencha o formulário mesmo com dúvidas — nossa equipe explica tudo pelo WhatsApp. Ou fale agora: <a href="https://wa.me/5548991361825" target="_blank">(48) 9913-61825</a></p>
     </div>
-
-    <div class="bottom-nav">
-      <button class="btn-next" id="btn-next-1" onclick="goTo(2)" disabled>Continuar</button>
+    <div class="btm" id="btm1">
+      <button class="btn-full" id="btn1" onclick="go(2)" disabled>Continuar →</button>
     </div>
   </div>
 
-  <!-- STEP 2: Localização -->
-  <div class="step" id="step-2">
-    <div class="steps-dots">
-      <div class="step-dot done"></div>
-      <div class="step-dot active"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
+  <!-- S2: Localização -->
+  <div class="step" id="s2">
+    <div class="dots"><div class="dot done"></div><div class="dot act"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="step-head">
+      <div class="step-eyebrow">Etapa 2 de 5</div>
+      <div class="step-title">Onde o idoso precisa ser atendido?</div>
+      <div class="step-desc">Informe a cidade onde o cuidado será realizado.</div>
     </div>
-    <div class="step-header">
-      <div class="step-number">Etapa 2 de 5</div>
-      <div class="step-title">Onde o cuidador irá atender?</div>
-      <div class="step-desc">Digite a cidade onde o idoso mora ou é atendido.</div>
-    </div>
-
-    <div class="field-group">
-      <label class="field-label">Estado <span>*</span></label>
-      <select class="field-select" id="state-select" onchange="onStateChange()">
+    <div class="field">
+      <label class="field-lbl">Estado <sup>*</sup></label>
+      <select class="field-sel" id="state" onchange="onState()">
         <option value="">Selecione o estado</option>
         <option value="SC">Santa Catarina (SC)</option>
         <option value="SP">São Paulo (SP)</option>
         <option value="PR">Paraná (PR)</option>
         <option value="RS">Rio Grande do Sul (RS)</option>
-        <option value="other">Outro estado</option>
+        <option value="outro">Outro estado</option>
       </select>
     </div>
-
-    <div class="field-group" id="city-group" style="display:none">
-      <label class="field-label">Cidade <span>*</span></label>
-      <div class="autocomplete-wrapper">
-        <input type="text" class="field-input" id="city-input" placeholder="Digite o nome da cidade..." autocomplete="off" oninput="onCityInput()" onblur="delayCloseDropdown()" onfocus="onCityInput()">
-        <div class="autocomplete-dropdown" id="city-dropdown"></div>
+    <div class="field" id="city-field" style="display:none">
+      <label class="field-lbl">Cidade <sup>*</sup></label>
+      <div class="ac-wrap">
+        <input class="field-inp" id="city-inp" type="text" placeholder="Digite o nome da cidade..." autocomplete="off" oninput="onCity()" onblur="closeDrop()">
+        <div class="ac-drop" id="city-drop"></div>
       </div>
-      <div class="coverage-warning" id="coverage-warning">
-        ⚠️ Esta cidade não está na nossa área de atendimento atual. Você ainda pode enviar sua solicitação — nossa equipe irá verificar se conseguimos atendê-lo ou colocá-lo em lista de espera para expansão.
-      </div>
+      <div class="cov-warn" id="cov-warn">⚠️ Esta cidade ainda não está em nossa área de atendimento. Você pode enviar assim mesmo — nossa equipe verificará disponibilidade e entrará em contato.</div>
     </div>
-
-    <div class="alert-coverage" id="alert-other-state">
+    <div class="alert alert-warning" id="alert-outro">
       <h3>Ainda não atendemos em todos os estados</h3>
-      <p>O Nonno atende atualmente em SC, SP, PR e RS. Se você está em outro estado, pode enviar sua solicitação e entraremos em contato assim que sua região for contemplada — ou indicaremos alternativas.</p>
+      <p>O Nonno opera em SC, SP, PR e RS. Envie assim mesmo — entraremos em contato quando sua região for contemplada ou indicaremos alternativas.</p>
     </div>
-
-    <div class="nav-buttons">
-      <button class="btn-back" onclick="goTo(1)">← Voltar</button>
-      <button class="btn-next" id="btn-next-2" onclick="goTo(3)" disabled>Continuar</button>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(1)">← Voltar</button>
+      <button class="btn-next" id="btn2" onclick="go(3)" disabled>Continuar →</button>
     </div>
   </div>
 
-  <!-- STEP 3: Tipo de cuidado -->
-  <div class="step" id="step-3">
-    <div class="steps-dots">
-      <div class="step-dot done"></div>
-      <div class="step-dot done"></div>
-      <div class="step-dot active"></div>
-      <div class="step-dot"></div>
-      <div class="step-dot"></div>
-    </div>
-    <div class="step-header">
-      <div class="step-number">Etapa 3 de 5</div>
+  <!-- S3: Tipo de cuidado -->
+  <div class="step" id="s3">
+    <div class="dots"><div class="dot done"></div><div class="dot done"></div><div class="dot act"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="step-head">
+      <div class="step-eyebrow">Etapa 3 de 5</div>
       <div class="step-title">Qual tipo de cuidado você precisa?</div>
-      <div class="step-desc">Selecione a opção que melhor descreve a necessidade.</div>
+      <div class="step-desc">Selecione o que melhor descreve a necessidade atual.</div>
     </div>
-
-    <div class="options-grid">
-      <button class="option-card" data-value="diario" onclick="selectOption(this, 'care_type')">
-        <span class="option-icon">🏠</span>
-        <div>
-          <div class="option-label">Cuidado diário / moradia</div>
-          <div class="option-sub">Cuidador fixo, período integral</div>
-        </div>
+    <div class="opts">
+      <button class="opt" data-val="integral" onclick="pick(this,'care')">
+        <div class="opt-icon">🏠</div>
+        <div class="opt-text"><div class="opt-name">Cuidado diário / período integral</div><div class="opt-sub">Cuidador presente todos os dias, por longos períodos</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="horas" onclick="selectOption(this, 'care_type')">
-        <span class="option-icon">🕐</span>
-        <div>
-          <div class="option-label">Por horas ou plantões</div>
-          <div class="option-sub">Alguns períodos por semana</div>
-        </div>
+      <button class="opt" data-val="plantao" onclick="pick(this,'care')">
+        <div class="opt-icon">🕐</div>
+        <div class="opt-text"><div class="opt-name">Por horas ou plantões</div><div class="opt-sub">Alguns períodos na semana, horários específicos</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="noturno" onclick="selectOption(this, 'care_type')">
-        <span class="option-icon">🌙</span>
-        <div>
-          <div class="option-label">Cuidado noturno</div>
-          <div class="option-sub">Acompanhamento durante a noite</div>
-        </div>
+      <button class="opt" data-val="noturno" onclick="pick(this,'care')">
+        <div class="opt-icon">🌙</div>
+        <div class="opt-text"><div class="opt-name">Cuidado noturno</div><div class="opt-sub">Acompanhamento e segurança durante a noite</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="findesemana" onclick="selectOption(this, 'care_type')">
-        <span class="option-icon">📅</span>
-        <div>
-          <div class="option-label">Fins de semana</div>
-          <div class="option-sub">Sábado, domingo ou feriados</div>
-        </div>
+      <button class="opt" data-val="fds" onclick="pick(this,'care')">
+        <div class="opt-icon">📅</div>
+        <div class="opt-text"><div class="opt-name">Fins de semana / feriados</div><div class="opt-sub">Sábados, domingos ou datas específicas</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="hospitalar" onclick="selectOption(this, 'care_type')">
-        <span class="option-icon">🏥</span>
-        <div>
-          <div class="option-label">Acompanhamento hospitalar</div>
-          <div class="option-sub">Internações ou consultas</div>
-        </div>
+      <button class="opt" data-val="hospitalar" onclick="pick(this,'care')">
+        <div class="opt-icon">🏥</div>
+        <div class="opt-text"><div class="opt-name">Acompanhamento hospitalar</div><div class="opt-sub">Internações, consultas ou pós-operatório</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="nao-sei" onclick="selectOption(this, 'care_type')">
-        <span class="option-icon">💬</span>
-        <div>
-          <div class="option-label">Não sei ainda</div>
-          <div class="option-sub">Preciso de orientação</div>
-        </div>
+      <button class="opt" data-val="indefinido" onclick="pick(this,'care')">
+        <div class="opt-icon">💬</div>
+        <div class="opt-text"><div class="opt-name">Ainda não sei</div><div class="opt-sub">Preciso de orientação para escolher</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
     </div>
-
-    <div class="nav-buttons">
-      <button class="btn-back" onclick="goTo(2)">← Voltar</button>
-      <button class="btn-next" id="btn-next-3" onclick="goTo(4)" disabled>Continuar</button>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(2)">← Voltar</button>
+      <button class="btn-next" id="btn3" onclick="go(4)" disabled>Continuar →</button>
     </div>
   </div>
 
-  <!-- STEP 4: Urgência e perfil -->
-  <div class="step" id="step-4">
-    <div class="steps-dots">
-      <div class="step-dot done"></div>
-      <div class="step-dot done"></div>
-      <div class="step-dot done"></div>
-      <div class="step-dot active"></div>
-      <div class="step-dot"></div>
+  <!-- S4: Frequência + Urgência -->
+  <div class="step" id="s4">
+    <div class="dots"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot act"></div><div class="dot"></div></div>
+    <div class="step-head">
+      <div class="step-eyebrow">Etapa 4 de 5</div>
+      <div class="step-title">Com que frequência você precisará do cuidador?</div>
+      <div class="step-desc">Isso define a proposta mais adequada — quanto mais regular, maior nossa prioridade de atendimento.</div>
     </div>
-    <div class="step-header">
-      <div class="step-number">Etapa 4 de 5</div>
+    <div class="opts">
+      <button class="opt" data-val="contrato" onclick="pick(this,'freq')">
+        <div class="opt-icon">📋</div>
+        <div class="opt-text">
+          <div class="opt-name">Contrato mensal / contínuo</div>
+          <div class="opt-sub">Precisamos de cuidado regular e de longo prazo</div>
+          <div class="revenue-chip">⭐ Maior prioridade de atendimento</div>
+        </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+      </button>
+      <button class="opt" data-val="semanal" onclick="pick(this,'freq')">
+        <div class="opt-icon">🔁</div>
+        <div class="opt-text">
+          <div class="opt-name">Recorrente semanal</div>
+          <div class="opt-sub">Mesmos dias e horários toda semana</div>
+          <div class="revenue-chip">⭐ Alta prioridade de atendimento</div>
+        </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+      </button>
+      <button class="opt" data-val="eventual" onclick="pick(this,'freq')">
+        <div class="opt-icon">🗓️</div>
+        <div class="opt-text">
+          <div class="opt-name">Eventual / sob demanda</div>
+          <div class="opt-sub">Quando surgir necessidade, sem regularidade fixa</div>
+        </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+      </button>
+      <button class="opt" data-val="pontual" onclick="pick(this,'freq')">
+        <div class="opt-icon">📌</div>
+        <div class="opt-text">
+          <div class="opt-name">Pontual / única vez</div>
+          <div class="opt-sub">Necessidade específica em uma data determinada</div>
+        </div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+      </button>
+    </div>
+
+    <div class="sect-divider">
       <div class="step-title">Para quando você precisa?</div>
-      <div class="step-desc">Isso nos ajuda a priorizar sua solicitação.</div>
+      <div class="step-desc" style="margin-top:4px">Isso define a prioridade do seu atendimento.</div>
     </div>
 
-    <div class="options-grid two-col" style="margin-bottom:1.5rem">
-      <button class="option-card" data-value="urgente" onclick="selectOption(this, 'urgency')">
-        <span class="option-icon">🚨</span>
-        <div>
-          <div class="option-label">Urgente</div>
-          <div class="option-sub">Hoje ou amanhã</div>
-        </div>
+    <div class="opts g2">
+      <button class="opt" data-val="urgente" onclick="pick(this,'urg')">
+        <div class="opt-icon">🚨</div>
+        <div class="opt-text"><div class="opt-name">Urgente</div><div class="opt-sub">Hoje ou amanhã</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="essa-semana" onclick="selectOption(this, 'urgency')">
-        <span class="option-icon">📆</span>
-        <div>
-          <div class="option-label">Esta semana</div>
-          <div class="option-sub">Nos próximos dias</div>
-        </div>
+      <button class="opt" data-val="semana" onclick="pick(this,'urg')">
+        <div class="opt-icon">📆</div>
+        <div class="opt-text"><div class="opt-name">Esta semana</div><div class="opt-sub">Nos próximos dias</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="esse-mes" onclick="selectOption(this, 'urgency')">
-        <span class="option-icon">🗓️</span>
-        <div>
-          <div class="option-label">Este mês</div>
-          <div class="option-sub">Nas próximas semanas</div>
-        </div>
+      <button class="opt" data-val="mes" onclick="pick(this,'urg')">
+        <div class="opt-icon">🗓️</div>
+        <div class="opt-text"><div class="opt-name">Este mês</div><div class="opt-sub">Próximas semanas</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
-      <button class="option-card" data-value="planejando" onclick="selectOption(this, 'urgency')">
-        <span class="option-icon">🔭</span>
-        <div>
-          <div class="option-label">Estou planejando</div>
-          <div class="option-sub">Sem data definida</div>
-        </div>
+      <button class="opt" data-val="planejando" onclick="pick(this,'urg')">
+        <div class="opt-icon">🔭</div>
+        <div class="opt-text"><div class="opt-name">Planejando</div><div class="opt-sub">Sem data definida</div></div>
+        <div class="opt-chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </button>
     </div>
-
-    <div class="step-header" style="margin-top:1.5rem">
-      <div class="step-title" style="font-size:1.1rem">Qual profissional você busca?</div>
-    </div>
-
-    <div class="options-grid">
-      <button class="option-card" data-value="acompanhante" onclick="selectOption(this, 'professional_type')">
-        <span class="option-icon">🤝</span>
-        <div>
-          <div class="option-label">Acompanhante</div>
-          <div class="option-sub">Companhia e suporte básico</div>
-        </div>
-      </button>
-      <button class="option-card" data-value="cuidador" onclick="selectOption(this, 'professional_type')">
-        <span class="option-icon">👐</span>
-        <div>
-          <div class="option-label">Cuidador profissional</div>
-          <div class="option-sub">Formação específica na área</div>
-        </div>
-      </button>
-      <button class="option-card" data-value="tecnico" onclick="selectOption(this, 'professional_type')">
-        <span class="option-icon">💉</span>
-        <div>
-          <div class="option-label">Técnico de enfermagem</div>
-          <div class="option-sub">Cuidados de saúde especializados</div>
-        </div>
-      </button>
-      <button class="option-card" data-value="nao-sei-profissional" onclick="selectOption(this, 'professional_type')">
-        <span class="option-icon">🤔</span>
-        <div>
-          <div class="option-label">Não sei ainda</div>
-          <div class="option-sub">Preciso de orientação</div>
-        </div>
-      </button>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn-back" onclick="goTo(3)">← Voltar</button>
-      <button class="btn-next" id="btn-next-4" onclick="goTo(5)" disabled>Continuar</button>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(3)">← Voltar</button>
+      <button class="btn-next" id="btn4" onclick="go(5)" disabled>Continuar →</button>
     </div>
   </div>
 
-  <!-- STEP 5: Dados de contato -->
-  <div class="step" id="step-5">
-    <div class="steps-dots">
-      <div class="step-dot done"></div>
-      <div class="step-dot done"></div>
-      <div class="step-dot done"></div>
-      <div class="step-dot done"></div>
-      <div class="step-dot active"></div>
+  <!-- S5: Contato -->
+  <div class="step" id="s5">
+    <div class="dots"><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot act"></div></div>
+    <div class="step-head">
+      <div class="step-eyebrow">Etapa 5 de 5</div>
+      <div class="step-title">Quase lá — seus dados de contato</div>
+      <div class="step-desc">Para enviarmos sua proposta personalizada pelo WhatsApp.</div>
     </div>
-    <div class="step-header">
-      <div class="step-number">Etapa 5 de 5</div>
-      <div class="step-title">Quase lá! Seus dados de contato</div>
-      <div class="step-desc">Para enviarmos sua proposta personalizada.</div>
+    <div class="info-box">🔒 Seus dados são usados exclusivamente para contato e envio da proposta. Não compartilhamos com terceiros.</div>
+    <div class="summary">
+      <div class="sum-title">Resumo da sua solicitação</div>
+      <div class="sum-row"><span class="sum-lbl">Cidade</span><span class="sum-val" id="s-city">—</span></div>
+      <div class="sum-row"><span class="sum-lbl">Tipo de cuidado</span><span class="sum-val" id="s-care">—</span></div>
+      <div class="sum-row"><span class="sum-lbl">Frequência</span><span class="sum-val" id="s-freq">—</span></div>
+      <div class="sum-row"><span class="sum-lbl">Urgência</span><span class="sum-val" id="s-urg">—</span></div>
     </div>
-
-    <div class="field-info">
-      🔒 Seus dados são usados apenas para envio da proposta. Não compartilhamos com terceiros.
+    <div class="field">
+      <label class="field-lbl" for="f-nome">Nome completo <sup>*</sup></label>
+      <input class="field-inp" id="f-nome" type="text" placeholder="Ex: Maria da Silva" oninput="val5()">
+      <div class="field-err" id="e-nome">Informe nome e sobrenome.</div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="nome">Seu nome completo <span>*</span></label>
-      <input type="text" class="field-input" id="nome" placeholder="Ex: Maria da Silva" oninput="validateStep5()">
-      <div class="field-error" id="erro-nome">Por favor, informe seu nome completo.</div>
+    <div class="field">
+      <label class="field-lbl" for="f-tel">WhatsApp <sup>*</sup></label>
+      <input class="field-inp" id="f-tel" type="tel" placeholder="(00) 00000-0000" oninput="fmtPhone(this);val5()" maxlength="15">
+      <div class="field-hint">Enviaremos sua proposta por aqui</div>
+      <div class="field-err" id="e-tel">Informe um número válido com DDD.</div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="whatsapp">WhatsApp <span>*</span></label>
-      <input type="tel" class="field-input" id="whatsapp" placeholder="(00) 00000-0000" oninput="formatPhone(this); validateStep5()" maxlength="15">
-      <div class="field-hint">Usaremos para enviar sua proposta e tirar dúvidas</div>
-      <div class="field-error" id="erro-whatsapp">Informe um número de WhatsApp válido.</div>
+    <div class="field">
+      <label class="field-lbl" for="f-email">E-mail <sup>*</sup></label>
+      <input class="field-inp" id="f-email" type="email" placeholder="seu@email.com" oninput="val5()">
+      <div class="field-err" id="e-email">Informe um e-mail válido.</div>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="email">E-mail <span>*</span></label>
-      <input type="email" class="field-input" id="email" placeholder="seu@email.com" oninput="validateStep5()">
-      <div class="field-error" id="erro-email">Informe um e-mail válido.</div>
+    <div class="field">
+      <label class="field-lbl" for="f-paciente">Nome do idoso</label>
+      <input class="field-inp" id="f-paciente" type="text" placeholder="Opcional">
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="paciente">Nome do paciente (idoso)</label>
-      <input type="text" class="field-input" id="paciente" placeholder="Opcional">
-    </div>
-
-    <div class="field-group">
-      <label class="field-label" for="canal">Como nos encontrou?</label>
-      <select class="field-select" id="canal">
+    <div class="field">
+      <label class="field-lbl" for="f-canal">Como nos encontrou?</label>
+      <select class="field-sel" id="f-canal">
         <option value="">Selecione</option>
-        <option value="pesquisa">Pesquisa no Google / Bing</option>
+        <option value="google">Pesquisa no Google / Bing</option>
         <option value="indicacao">Indicação (família ou amigos)</option>
-        <option value="redes-sociais">Redes sociais (Instagram, Facebook)</option>
-        <option value="propaganda">Propaganda (rádio, TV, panfleto)</option>
+        <option value="social">Redes sociais (Instagram, Facebook)</option>
+        <option value="midia">Propaganda (rádio, TV, panfleto)</option>
         <option value="parceiros">Parceiros Nonno</option>
       </select>
     </div>
-
-    <div class="field-group">
-      <label class="field-label" for="obs">Alguma informação adicional?</label>
-      <textarea class="field-input" id="obs" rows="3" placeholder="Ex: O paciente tem Alzheimer e precisa de cuidados especiais..."></textarea>
+    <div class="field">
+      <label class="field-lbl" for="f-obs">Informações adicionais</label>
+      <textarea class="field-inp" id="f-obs" rows="3" placeholder="Ex: A paciente tem Alzheimer e precisa de cuidados especiais..."></textarea>
     </div>
-
-    <!-- Resumo -->
-    <div class="summary-card">
-      <h3>Resumo da sua solicitação</h3>
-      <div class="summary-row"><span class="label">Cidade</span><span class="value" id="sum-city">—</span></div>
-      <div class="summary-row"><span class="label">Tipo de cuidado</span><span class="value" id="sum-care">—</span></div>
-      <div class="summary-row"><span class="label">Urgência</span><span class="value" id="sum-urgency">—</span></div>
-      <div class="summary-row"><span class="label">Profissional</span><span class="value" id="sum-pro">—</span></div>
+    <div class="check-row">
+      <input type="checkbox" id="lgpd" onchange="val5()">
+      <label for="lgpd">Li e aceito os <a href="https://nonnoapp.com/termos-de-uso-e-politica-de-privacidade-nonno/" target="_blank">Termos de Uso e Política de Privacidade</a> do Nonno e concordo com o uso dos meus dados para o envio do orçamento.</label>
     </div>
-
-    <div class="checkbox-wrapper">
-      <input type="checkbox" id="lgpd" onchange="validateStep5()">
-      <label for="lgpd">Li e aceito os <a href="https://nonnoapp.com/termos-de-uso-e-politica-de-privacidade-nonno/" target="_blank">Termos de Uso e Política de Privacidade</a> do Nonno. Concordo com o uso dos meus dados para envio do orçamento solicitado.</label>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn-back" onclick="goTo(4)">← Voltar</button>
-      <button class="btn-next" id="btn-submit" onclick="submitForm()" disabled>Receber minha proposta →</button>
+    <div class="nav-row">
+      <button class="btn-back" onclick="go(4)">← Voltar</button>
+      <button class="btn-submit" id="btn5" onclick="submitForm()" disabled>Receber minha proposta →</button>
     </div>
   </div>
 
   <!-- SUCCESS -->
-  <div class="step" id="step-success">
-    <div class="success-screen">
-      <div class="success-icon">✓</div>
+  <div class="step" id="s-ok">
+    <div class="success-wrap">
+      <div class="success-ring">✓</div>
       <h2>Solicitação recebida!</h2>
-      <p>Nossa equipe já recebeu suas informações e entrará em contato pelo WhatsApp em breve com sua proposta personalizada.</p>
-      <a href="https://wa.me/5548991361825?text=Olá%2C%20acabei%20de%20preencher%20o%20formulário%20no%20site%20e%20gostaria%20de%20falar%20com%20a%20equipe!" class="whatsapp-btn">
-        💬 Falar pelo WhatsApp agora
+      <p>Nossa equipe já está com suas informações e entrará em contato pelo WhatsApp com uma proposta personalizada.</p>
+      <a href="https://wa.me/5548991361825?text=Olá%2C%20preenchi%20o%20formulário%20no%20site%20e%20gostaria%20de%20falar%20com%20a%20equipe!" class="wa-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        Falar com a equipe agora
       </a>
-      <p style="font-size:0.82rem; color:var(--nonno-muted)">Você também receberá um e-mail de confirmação.</p>
+      <p style="font-size:0.78rem;margin-top:14px">Você também receberá uma confirmação por e-mail.</p>
     </div>
   </div>
 
 </div>
 
-<!-- DEV score badge -->
-<div class="score-badge" id="score-badge">Score: 0</div>
-
 <script>
-const COVERED_CITIES = {
-  SC: ["Florianópolis","Itapema","Blumenau","Itajaí","Campo Alegre","Palhoça","Balneário Camboriú","São José","Biguaçu","Jaraguá do Sul","Garopaba","Chapecó","Criciúma","Brusque","São Bento do Sul","Joinville","Laguna","Tubarão","Santo Amaro da Imperatriz","Gaspar","Imbituba","Bombinhas","Penha","Navegantes","Governador Celso Ramos","Balneário","Barra Velha","Camboriú","Indaial","Porto Belo","Tijucas"],
-  SP: ["São Paulo","Santo André","São Bernardo do Campo","São Caetano","Guarulhos","Santos","Campinas","Barueri","Taboão da Serra","Osasco","São Caetano do Sul","Jundiaí","Sumaré"],
-  PR: ["Curitiba","Campina Grande do Sul","São José dos Pinhais","Guarapuava","Colombo","Pinhais","Quatro Barras","Londrina"],
-  RS: ["Porto Alegre","Canoas","Arroio do Sul","Eldorado do Sul","Novo Hamburgo","Viamão","São Leopoldo","Sapucaia do Sul","Esteio","Cruzeiro do Sul","Estrela","Lajeado"]
-};
+const CITIES={SC:['Florianópolis','Itapema','Blumenau','Itajaí','Campo Alegre','Palhoça','Balneário Camboriú','São José','Biguaçu','Jaraguá do Sul','Garopaba','Chapecó','Criciúma','Brusque','São Bento do Sul','Joinville','Laguna','Tubarão','Santo Amaro da Imperatriz','Gaspar','Imbituba','Bombinhas','Penha','Navegantes','Governador Celso Ramos','Balneário','Barra Velha','Camboriú','Indaial','Porto Belo','Tijucas'],SP:['São Paulo','Santo André','São Bernardo do Campo','São Caetano','Guarulhos','Santos','Campinas','Barueri','Taboão da Serra','Osasco','São Caetano do Sul','Jundiaí','Sumaré'],PR:['Curitiba','Campina Grande do Sul','São José dos Pinhais','Guarapuava','Colombo','Pinhais','Quatro Barras','Londrina'],RS:['Porto Alegre','Canoas','Arroio do Sul','Eldorado do Sul','Novo Hamburgo','Viamão','São Leopoldo','Sapucaia do Sul','Esteio','Cruzeiro do Sul','Estrela','Lajeado']};
+const fd={intent:null,state:null,city:null,covered:false,care:null,freq:null,urg:null};
+let cur=1;
 
-const formData = {
-  intent: null,
-  state: null,
-  city: null,
-  cityInCoverage: false,
-  care_type: null,
-  urgency: null,
-  professional_type: null,
-};
-
-let currentStep = 1;
-const totalSteps = 5;
-
-function updateProgress() {
-  const pct = Math.round((currentStep / totalSteps) * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = `Passo ${currentStep} de ${totalSteps}`;
-  document.getElementById('progress-pct').textContent = pct + '%';
+function pick(el,f){
+  el.closest('.opts').querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');fd[f]=el.dataset.val;
+  if(f==='intent'){
+    document.getElementById('alert-emprego').classList.remove('show');
+    document.getElementById('alert-duvida').classList.remove('show');
+    const b=document.getElementById('btn1');
+    if(fd.intent==='emprego'){document.getElementById('alert-emprego').classList.add('show');b.disabled=true;}
+    else{if(fd.intent==='duvida')document.getElementById('alert-duvida').classList.add('show');b.disabled=false;}
+  }
+  if(f==='care')document.getElementById('btn3').disabled=false;
+  if(f==='freq'||f==='urg')document.getElementById('btn4').disabled=!(fd.freq&&fd.urg);
 }
 
-function goTo(step) {
-  document.getElementById('step-' + currentStep).classList.remove('active');
-  if (step === 'success') {
-    document.getElementById('step-success').classList.add('active');
-    document.querySelector('.progress-wrapper').style.display = 'none';
-    fireConversionEvents();
-    return;
-  }
-  currentStep = step;
-  document.getElementById('step-' + step).classList.add('active');
-  updateProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (step === 5) updateSummary();
+function onState(){
+  const v=document.getElementById('state').value;fd.state=v;fd.city=null;fd.covered=false;
+  document.getElementById('city-inp').value='';
+  document.getElementById('cov-warn').classList.remove('show');
+  document.getElementById('btn2').disabled=true;
+  const cf=document.getElementById('city-field'),ao=document.getElementById('alert-outro');
+  if(v==='outro'){cf.style.display='none';ao.classList.add('show');document.getElementById('btn2').disabled=false;}
+  else if(v){cf.style.display='block';ao.classList.remove('show');}
+  else{cf.style.display='none';ao.classList.remove('show');}
 }
 
-function selectOption(el, field) {
-  const group = el.closest('.options-grid');
-  group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  formData[field] = el.dataset.value;
-
-  if (field === 'intent') {
-    document.getElementById('alert-cuidador').classList.remove('show');
-    document.getElementById('alert-informacao').classList.remove('show');
-    const btn = document.getElementById('btn-next-1');
-
-    if (el.dataset.value === 'sou-cuidador') {
-      document.getElementById('alert-cuidador').classList.add('show');
-      btn.disabled = true;
-    } else if (el.dataset.value === 'informacao') {
-      document.getElementById('alert-informacao').classList.add('show');
-      btn.disabled = false;
-    } else {
-      btn.disabled = false;
-    }
-  }
-
-  if (field === 'care_type') {
-    document.getElementById('btn-next-3').disabled = false;
-  }
-
-  if (field === 'urgency' || field === 'professional_type') {
-    const u = formData.urgency;
-    const p = formData.professional_type;
-    document.getElementById('btn-next-4').disabled = !(u && p);
-  }
-
-  updateScore();
+function onCity(){
+  const q=document.getElementById('city-inp').value.toLowerCase().trim();
+  const drop=document.getElementById('city-drop');
+  if(!fd.state||fd.state==='outro'||q.length<2){drop.classList.remove('open');return;}
+  const list=CITIES[fd.state]||[];
+  const matches=list.filter(c=>c.toLowerCase().includes(q));
+  let html='';
+  matches.slice(0,8).forEach(c=>{html+=`<div class="ac-item" onmousedown="setCity('${c.replace(/'/g,"\\'")}',true)"><span>${c}</span><span class="ac-badge ok">Atendemos ✓</span></div>`;});
+  const typed=cap(document.getElementById('city-inp').value.trim());
+  if(!matches.some(c=>c.toLowerCase()===q)&&q.length>=3){html+=`<div class="ac-item" onmousedown="setCity('${typed.replace(/'/g,"\\'")}',false)"><span>${typed}</span><span class="ac-badge nok">Verificar cobertura</span></div>`;}
+  drop.innerHTML=html||'<div class="ac-item" style="color:var(--cinza-muted);cursor:default">Nenhuma cidade encontrada</div>';
+  drop.classList.add('open');
 }
 
-function onStateChange() {
-  const val = document.getElementById('state-select').value;
-  formData.state = val;
-  formData.city = null;
-  formData.cityInCoverage = false;
-  document.getElementById('city-input').value = '';
-  document.getElementById('coverage-warning').classList.remove('show');
-  document.getElementById('btn-next-2').disabled = true;
+function setCity(city,ok){
+  document.getElementById('city-inp').value=city;
+  document.getElementById('city-drop').classList.remove('open');
+  fd.city=city;fd.covered=ok;
+  document.getElementById('cov-warn').classList.toggle('show',!ok);
+  document.getElementById('btn2').disabled=false;
+}
 
-  if (val === 'other') {
-    document.getElementById('city-group').style.display = 'none';
-    document.getElementById('alert-other-state').classList.add('show');
-    document.getElementById('btn-next-2').disabled = false;
-  } else if (val) {
-    document.getElementById('city-group').style.display = 'block';
-    document.getElementById('alert-other-state').classList.remove('show');
-  } else {
-    document.getElementById('city-group').style.display = 'none';
-    document.getElementById('alert-other-state').classList.remove('show');
+function closeDrop(){setTimeout(()=>document.getElementById('city-drop').classList.remove('open'),200);}
+
+function cap(s){return s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ');}
+
+function go(n){
+  document.getElementById('s'+cur).classList.remove('active');
+  if(n==='ok'){
+    document.getElementById('s-ok').classList.add('active');
+    document.getElementById('prog-rail').style.display='none';
+    document.querySelectorAll('.btm').forEach(b=>b.classList.add('hidden'));
+    fire();return;
   }
-  updateScore();
+  cur=n;
+  document.getElementById('s'+cur).classList.add('active');
+  const pct=Math.round((cur/5)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=`Etapa ${cur} de 5`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  if(cur===5)fillSum();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function onCityInput() {
-  const state = formData.state;
-  const query = document.getElementById('city-input').value.toLowerCase().trim();
-  const dropdown = document.getElementById('city-dropdown');
-
-  if (!state || state === 'other' || query.length < 2) {
-    dropdown.classList.remove('open');
-    return;
-  }
-
-  const cities = COVERED_CITIES[state] || [];
-  // Build list: covered matches first, then allow free text
-  const covered = cities.filter(c => c.toLowerCase().includes(query));
-
-  let html = '';
-  covered.forEach(c => {
-    html += `<div class="autocomplete-item covered" onclick="selectCity('${c}', true)">
-      <span>${c}</span><span class="badge">Atendemos aqui ✓</span>
-    </div>`;
-  });
-
-  // If typed city not in covered list
-  if (query.length >= 3 && !covered.some(c => c.toLowerCase() === query)) {
-    html += `<div class="autocomplete-item not-covered" onclick="selectCity('${capitalize(document.getElementById('city-input').value.trim())}', false)">
-      <span>${capitalize(document.getElementById('city-input').value.trim())}</span><span class="badge">Verificar cobertura</span>
-    </div>`;
-  }
-
-  dropdown.innerHTML = html || '<div class="autocomplete-item" style="color:var(--nonno-muted);cursor:default">Nenhuma cidade encontrada</div>';
-  dropdown.classList.add('open');
+function val5(){
+  const nome=document.getElementById('f-nome').value.trim();
+  const tel=document.getElementById('f-tel').value.replace(/\D/g,'');
+  const email=document.getElementById('f-email').value.trim();
+  const lgpd=document.getElementById('lgpd').checked;
+  document.getElementById('btn5').disabled=!(nome.split(' ').length>=2&&tel.length>=10&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)&&lgpd);
 }
 
-function selectCity(city, inCoverage) {
-  document.getElementById('city-input').value = city;
-  document.getElementById('city-dropdown').classList.remove('open');
-  formData.city = city;
-  formData.cityInCoverage = inCoverage;
-
-  if (!inCoverage) {
-    document.getElementById('coverage-warning').classList.add('show');
-  } else {
-    document.getElementById('coverage-warning').classList.remove('show');
-  }
-
-  document.getElementById('btn-next-2').disabled = false;
-  updateScore();
+function fmtPhone(inp){
+  let v=inp.value.replace(/\D/g,'').slice(0,11);
+  if(v.length<=10)v=v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3');
+  else v=v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3');
+  inp.value=v;
 }
 
-function delayCloseDropdown() {
-  setTimeout(() => document.getElementById('city-dropdown').classList.remove('open'), 200);
+function fillSum(){
+  const cm={integral:'Diário / integral',plantao:'Por horas/plantões',noturno:'Noturno',fds:'Fins de semana',hospitalar:'Hospitalar',indefinido:'A definir'};
+  const fm={contrato:'Mensal / contínuo',semanal:'Recorrente semanal',eventual:'Eventual / sob demanda',pontual:'Pontual / única vez'};
+  const um={urgente:'Urgente (hoje/amanhã)',semana:'Esta semana',mes:'Este mês',planejando:'Planejando'};
+  document.getElementById('s-city').textContent=fd.city?`${fd.city} / ${fd.state}`:(fd.state==='outro'?'Outro estado':'—');
+  document.getElementById('s-care').textContent=cm[fd.care]||'—';
+  document.getElementById('s-freq').textContent=fm[fd.freq]||'—';
+  document.getElementById('s-urg').textContent=um[fd.urg]||'—';
 }
 
-function capitalize(str) {
-  return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+function submitForm(){
+  const nome=document.getElementById('f-nome').value.trim();
+  const tel=document.getElementById('f-tel').value.replace(/\D/g,'');
+  const email=document.getElementById('f-email').value.trim();
+  let ok=true;
+  const se=(id,eid,cond)=>{document.getElementById(id).classList.toggle('err',cond);document.getElementById(eid).classList.toggle('show',cond);if(cond)ok=false;};
+  se('f-nome','e-nome',nome.split(' ').length<2);
+  se('f-tel','e-tel',tel.length<10);
+  se('f-email','e-email',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  if(ok)go('ok');
 }
 
-function formatPhone(input) {
-  let v = input.value.replace(/\D/g, '');
-  if (v.length > 11) v = v.slice(0, 11);
-  if (v.length <= 10) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-  else v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-  input.value = v;
+function calcScore(){
+  let s=0;
+  if(fd.intent==='emprego')return{score:-100,qual:false};
+  if(fd.state==='outro')s-=30;else if(fd.covered)s+=40;else if(fd.state)s+=10;
+  s+=({contrato:35,semanal:25,eventual:12,pontual:5}[fd.freq]||0);
+  s+=({urgente:25,semana:18,mes:10,planejando:3}[fd.urg]||0);
+  s+=({integral:15,plantao:10,noturno:10,fds:7,hospitalar:12,indefinido:3}[fd.care]||0);
+  const stOk=fd.state&&fd.state!=='outro';
+  return{score:Math.max(0,s),qual:s>=50&&stOk};
 }
 
-function validateStep5() {
-  const nome = document.getElementById('nome').value.trim();
-  const wa = document.getElementById('whatsapp').value.replace(/\D/g,'');
-  const email = document.getElementById('email').value.trim();
-  const lgpd = document.getElementById('lgpd').checked;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const phoneOk = wa.length >= 10;
-  const nameOk = nome.split(' ').length >= 2;
-
-  document.getElementById('btn-submit').disabled = !(nameOk && phoneOk && emailOk && lgpd);
-  updateScore();
+function fire(){
+  const{score:sc,qual}=calcScore();
+  const canal=document.getElementById('f-canal').value;
+  window.dataLayer=window.dataLayer||[];
+  window.dataLayer.push({event:'nonno_form_submit',form_name:'orcamento_express',city:fd.city||'',state:fd.state||'',city_in_coverage:fd.covered,care_type:fd.care||'',freq:fd.freq||'',urgency:fd.urg||'',acquisition_channel:canal,lead_score:sc});
+  if(qual){window.dataLayer.push({event:'nonno_lead_qualificado',form_name:'orcamento_express',city:fd.city||'',state:fd.state||'',care_type:fd.care||'',freq:fd.freq||'',urgency:fd.urg||'',acquisition_channel:canal,lead_score:sc,value:{contrato:250,semanal:150,eventual:60,pontual:25}[fd.freq]||50,currency:'BRL'});}
 }
-
-function updateSummary() {
-  const careMap = {diario:'Diário / Moradia', horas:'Por horas/plantões', noturno:'Noturno', findesemana:'Fins de semana', hospitalar:'Hospitalar', 'nao-sei':'A definir'};
-  const urgMap = {urgente:'Urgente (hoje/amanhã)', 'essa-semana':'Esta semana', 'esse-mes':'Este mês', planejando:'Planejando'};
-  const proMap = {acompanhante:'Acompanhante', cuidador:'Cuidador Profissional', tecnico:'Técnico de Enfermagem', 'nao-sei-profissional':'A definir'};
-
-  document.getElementById('sum-city').textContent = formData.city ? `${formData.city} / ${formData.state}` : '—';
-  document.getElementById('sum-care').textContent = careMap[formData.care_type] || '—';
-  document.getElementById('sum-urgency').textContent = urgMap[formData.urgency] || '—';
-  document.getElementById('sum-pro').textContent = proMap[formData.professional_type] || '—';
-}
-
-// =============================================
-// LEAD SCORING ENGINE
-// =============================================
-function calculateScore() {
-  let score = 0;
-  const reasons = [];
-
-  // --- DISQUALIFIERS (negative) ---
-  if (formData.intent === 'sou-cuidador') {
-    return { score: -100, qualified: false, reasons: ['Busca emprego como cuidador'] };
-  }
-
-  // --- COVERAGE (weight: 40pts) ---
-  if (formData.state === 'other') {
-    score -= 40;
-    reasons.push('Estado fora de cobertura');
-  } else if (formData.city && !formData.cityInCoverage) {
-    score += 10;
-    reasons.push('Cidade fora de cobertura mas estado coberto');
-  } else if (formData.cityInCoverage) {
-    score += 40;
-    reasons.push('Cidade coberta ✓');
-  }
-
-  // --- URGENCY (weight: 30pts) ---
-  const urgScore = { urgente: 30, 'essa-semana': 25, 'esse-mes': 15, planejando: 5 };
-  if (formData.urgency) {
-    score += urgScore[formData.urgency] || 0;
-    reasons.push(`Urgência: ${formData.urgency}`);
-  }
-
-  // --- PROFESSIONAL TYPE (weight: 15pts) ---
-  const proScore = { tecnico: 15, cuidador: 12, acompanhante: 10, 'nao-sei-profissional': 5 };
-  if (formData.professional_type) {
-    score += proScore[formData.professional_type] || 0;
-  }
-
-  // --- CARE TYPE (weight: 15pts) ---
-  const careScore = { diario: 15, hospitalar: 12, noturno: 12, horas: 10, findesemana: 8, 'nao-sei': 5 };
-  if (formData.care_type) {
-    score += careScore[formData.care_type] || 0;
-  }
-
-  // Qualified: score >= 50 AND in coverage (state-level at minimum)
-  const stateOk = formData.state && formData.state !== 'other';
-  const qualified = score >= 50 && stateOk;
-
-  return { score: Math.max(0, score), qualified, reasons };
-}
-
-function updateScore() {
-  const { score, qualified } = calculateScore();
-  // DEV badge (remove in production)
-  // const badge = document.getElementById('score-badge');
-  // badge.style.display = 'block';
-  // badge.textContent = `Score: ${score} | ${qualified ? '✓ Qualificado' : '✗ Não qualificado'}`;
-  // badge.style.background = qualified ? '#16A34A' : '#DC2626';
-}
-
-// =============================================
-// GTM / ANALYTICS EVENTS
-// =============================================
-function pushDataLayer(event, data) {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event, ...data });
-}
-
-function fireConversionEvents() {
-  const { score, qualified, reasons } = calculateScore();
-
-  const nome = document.getElementById('nome').value.trim();
-  const wa = document.getElementById('whatsapp').value;
-  const email = document.getElementById('email').value.trim();
-  const canal = document.getElementById('canal').value;
-
-  // Base event — all submissions
-  pushDataLayer('nonno_form_submit', {
-    form_name: 'orcamento_express',
-    city: formData.city || '',
-    state: formData.state || '',
-    city_in_coverage: formData.cityInCoverage,
-    care_type: formData.care_type || '',
-    urgency: formData.urgency || '',
-    professional_type: formData.professional_type || '',
-    acquisition_channel: canal || '',
-    lead_score: score,
-  });
-
-  // QUALIFIED lead event — only fires if score >= 50 and in covered area
-  if (qualified) {
-    pushDataLayer('nonno_lead_qualificado', {
-      form_name: 'orcamento_express',
-      city: formData.city || '',
-      state: formData.state || '',
-      care_type: formData.care_type || '',
-      urgency: formData.urgency || '',
-      professional_type: formData.professional_type || '',
-      lead_score: score,
-      acquisition_channel: canal || '',
-      value: urgencyToValue(formData.urgency),
-      currency: 'BRL',
-    });
-  }
-
-  console.log('[Nonno] Lead score:', score, '| Qualified:', qualified, '| Reasons:', reasons);
-}
-
-function urgencyToValue(urgency) {
-  // Assign estimated conversion value based on urgency (for Smart Bidding signals)
-  const values = { urgente: 150, 'essa-semana': 100, 'esse-mes': 60, planejando: 20 };
-  return values[urgency] || 50;
-}
-
-function submitForm() {
-  // Basic validation
-  const nome = document.getElementById('nome').value.trim();
-  const wa = document.getElementById('whatsapp').value.replace(/\D/g,'');
-  const email = document.getElementById('email').value.trim();
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  let ok = true;
-
-  if (nome.split(' ').length < 2) {
-    document.getElementById('erro-nome').classList.add('show');
-    document.getElementById('nome').classList.add('error');
-    ok = false;
-  } else {
-    document.getElementById('erro-nome').classList.remove('show');
-    document.getElementById('nome').classList.remove('error');
-  }
-
-  if (wa.length < 10) {
-    document.getElementById('erro-whatsapp').classList.add('show');
-    document.getElementById('whatsapp').classList.add('error');
-    ok = false;
-  } else {
-    document.getElementById('erro-whatsapp').classList.remove('show');
-    document.getElementById('whatsapp').classList.remove('error');
-  }
-
-  if (!emailOk) {
-    document.getElementById('erro-email').classList.add('show');
-    document.getElementById('email').classList.add('error');
-    ok = false;
-  } else {
-    document.getElementById('erro-email').classList.remove('show');
-    document.getElementById('email').classList.remove('error');
-  }
-
-  if (!ok) return;
-
-  goTo('success');
-}
-
-updateProgress();
 </script>
 </body>
 </html>
