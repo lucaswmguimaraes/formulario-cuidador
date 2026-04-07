@@ -1,289 +1,1488 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Encontre um Cuidador</title>
-
+<title>Encontre um Cuidador | Nonno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f2f4f8;
-  margin: 0;
-}
+  :root {
+    --nonno-green: #1D6E4F;
+    --nonno-green-light: #E8F5EE;
+    --nonno-green-mid: #2E8A63;
+    --nonno-text: #1C1C1C;
+    --nonno-muted: #6B7280;
+    --nonno-border: #E5E7EB;
+    --nonno-bg: #F9FAFB;
+    --nonno-white: #FFFFFF;
+    --nonno-danger: #DC2626;
+    --nonno-warning: #F59E0B;
+    --nonno-warning-bg: #FFFBEB;
+    --score-high: #16A34A;
+    --score-mid: #D97706;
+    --score-low: #DC2626;
+  }
 
-.container {
-  max-width: 420px;
-  margin: auto;
-  padding: 20px;
-  background: white;
-  min-height: 100vh;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--nonno-bg);
+    color: var(--nonno-text);
+    min-height: 100vh;
+  }
 
-p {
-  color: #666;
-  font-size: 14px;
-}
+  /* Header */
+  .header {
+    background: var(--nonno-white);
+    border-bottom: 1px solid var(--nonno-border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
 
-.progress {
-  height: 6px;
-  background: #e0e0e0;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--nonno-green);
+    text-decoration: none;
+  }
 
-.progress-bar {
-  height: 6px;
-  width: 0%;
-  background: #2e7d32;
-  border-radius: 10px;
-  transition: 0.3s;
-}
+  .header-badge {
+    font-size: 0.75rem;
+    background: var(--nonno-green-light);
+    color: var(--nonno-green);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
 
-button {
-  width: 100%;
-  padding: 16px;
-  margin-top: 12px;
-  border: none;
-  background: #2e7d32;
-  color: white;
-  font-size: 16px;
-  border-radius: 12px;
-  cursor: pointer;
-}
+  /* Hero */
+  .hero {
+    background: var(--nonno-green);
+    color: white;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+  }
 
-button.secondary {
-  background: #eee;
-  color: #333;
-}
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
 
-input, select {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
 
-.hidden {
-  display: none;
-}
+  .hero p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.95rem;
+    max-width: 380px;
+    margin: 0 auto;
+  }
 
-.fade {
-  animation: fade 0.3s;
-}
+  /* Trust bar */
+  .trust-bar {
+    background: rgba(255,255,255,0.08);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
 
-@keyframes fade {
-  from { opacity: 0; transform: translateY(10px);}
-  to { opacity: 1; transform: translateY(0);}
-}
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+  }
 
-.suggestion {
-  background: #fafafa;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 5px;
-  cursor: pointer;
-}
+  .trust-icon {
+    font-size: 0.9rem;
+  }
+
+  /* Progress */
+  .progress-wrapper {
+    background: var(--nonno-white);
+    border-bottom: 1px solid var(--nonno-border);
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 60px;
+    z-index: 90;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--nonno-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--nonno-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--nonno-green);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* Steps */
+  .step-container {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 6rem;
+  }
+
+  .step {
+    display: none;
+    animation: fadeSlide 0.3s ease;
+  }
+
+  .step.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--nonno-border);
+  }
+
+  .step-number {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--nonno-green);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .step-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--nonno-text);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+    color: var(--nonno-muted);
+  }
+
+  /* Option cards */
+  .options-grid {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .options-grid.two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .option-card {
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    background: var(--nonno-white);
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    position: relative;
+  }
+
+  .option-card:hover {
+    border-color: var(--nonno-green-mid);
+    background: var(--nonno-green-light);
+  }
+
+  .option-card.selected {
+    border-color: var(--nonno-green);
+    background: var(--nonno-green-light);
+  }
+
+  .option-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: var(--nonno-green);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  .option-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .option-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--nonno-text);
+    line-height: 1.3;
+  }
+
+  .option-sub {
+    font-size: 0.78rem;
+    color: var(--nonno-muted);
+    margin-top: 2px;
+  }
+
+  /* Alert — disqualification */
+  .alert-disqualify {
+    background: #FEF2F2;
+    border: 1.5px solid #FCA5A5;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    display: none;
+  }
+
+  .alert-disqualify.show { display: block; }
+
+  .alert-disqualify h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--nonno-danger);
+    margin-bottom: 6px;
+  }
+
+  .alert-disqualify p {
+    font-size: 0.85rem;
+    color: #7F1D1D;
+    line-height: 1.5;
+  }
+
+  .alert-disqualify a {
+    color: var(--nonno-danger);
+    font-weight: 600;
+  }
+
+  /* Alert — out of coverage */
+  .alert-coverage {
+    background: var(--nonno-warning-bg);
+    border: 1.5px solid #FCD34D;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    display: none;
+  }
+
+  .alert-coverage.show { display: block; }
+
+  .alert-coverage h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #92400E;
+    margin-bottom: 6px;
+  }
+
+  .alert-coverage p {
+    font-size: 0.85rem;
+    color: #78350F;
+    line-height: 1.5;
+  }
+
+  /* Form fields */
+  .field-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--nonno-text);
+    margin-bottom: 6px;
+  }
+
+  .field-label span {
+    color: var(--nonno-danger);
+    margin-left: 2px;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--nonno-text);
+    background: var(--nonno-white);
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--nonno-green);
+    box-shadow: 0 0 0 3px rgba(29, 110, 79, 0.08);
+  }
+
+  .field-input.error {
+    border-color: var(--nonno-danger);
+  }
+
+  .field-error {
+    font-size: 0.78rem;
+    color: var(--nonno-danger);
+    margin-top: 4px;
+    display: none;
+  }
+
+  .field-error.show { display: block; }
+
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--nonno-muted);
+    margin-top: 4px;
+  }
+
+  /* Select */
+  .field-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--nonno-text);
+    background: var(--nonno-white);
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236B7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .field-select:focus {
+    outline: none;
+    border-color: var(--nonno-green);
+    box-shadow: 0 0 0 3px rgba(29, 110, 79, 0.08);
+  }
+
+  /* City autocomplete */
+  .autocomplete-wrapper {
+    position: relative;
+  }
+
+  .autocomplete-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--nonno-white);
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 200;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    display: none;
+  }
+
+  .autocomplete-dropdown.open { display: block; }
+
+  .autocomplete-item {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--nonno-border);
+    transition: background 0.15s;
+  }
+
+  .autocomplete-item:last-child { border-bottom: none; }
+
+  .autocomplete-item:hover { background: var(--nonno-green-light); }
+
+  .autocomplete-item.covered .badge {
+    font-size: 0.7rem;
+    background: var(--nonno-green-light);
+    color: var(--nonno-green);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .autocomplete-item.not-covered .badge {
+    font-size: 0.7rem;
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .coverage-warning {
+    background: var(--nonno-warning-bg);
+    border: 1.5px solid #FCD34D;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 8px;
+    font-size: 0.83rem;
+    color: #78350F;
+    display: none;
+  }
+
+  .coverage-warning.show { display: block; }
+
+  /* Checkbox */
+  .checkbox-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 1rem;
+    background: var(--nonno-bg);
+    border-radius: 10px;
+    border: 1px solid var(--nonno-border);
+    margin-bottom: 1.25rem;
+  }
+
+  .checkbox-wrapper input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: var(--nonno-green);
+    cursor: pointer;
+  }
+
+  .checkbox-wrapper label {
+    font-size: 0.82rem;
+    color: var(--nonno-muted);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .checkbox-wrapper a {
+    color: var(--nonno-green);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: var(--nonno-green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary:hover { background: var(--nonno-green-mid); }
+  .btn-primary:active { transform: scale(0.99); }
+  .btn-primary:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--nonno-muted);
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--nonno-green);
+    color: var(--nonno-green);
+  }
+
+  /* Nav buttons */
+  .nav-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  .btn-back {
+    padding: 14px 18px;
+    background: transparent;
+    color: var(--nonno-muted);
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .btn-back:hover {
+    border-color: var(--nonno-green);
+    color: var(--nonno-green);
+  }
+
+  .btn-next {
+    flex: 1;
+    padding: 14px;
+    background: var(--nonno-green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-next:hover { background: var(--nonno-green-mid); }
+  .btn-next:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+  /* Summary card */
+  .summary-card {
+    background: var(--nonno-white);
+    border: 1.5px solid var(--nonno-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .summary-card h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--nonno-muted);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--nonno-border);
+  }
+
+  .summary-row:last-child { border-bottom: none; }
+
+  .summary-row .label { color: var(--nonno-muted); }
+  .summary-row .value { font-weight: 500; color: var(--nonno-text); text-align: right; max-width: 60%; }
+
+  /* Score badge (dev mode) */
+  .score-badge {
+    position: fixed;
+    bottom: 80px;
+    right: 16px;
+    background: var(--nonno-text);
+    color: white;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    z-index: 999;
+    display: none;
+  }
+
+  /* Success */
+  .success-screen {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--nonno-green-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+  }
+
+  .success-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+
+  .success-screen p {
+    color: var(--nonno-muted);
+    font-size: 0.9rem;
+    max-width: 340px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+
+  .whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #25D366;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Step indicator dots */
+  .steps-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--nonno-border);
+    transition: all 0.3s;
+  }
+
+  .step-dot.active {
+    background: var(--nonno-green);
+    width: 20px;
+    border-radius: 4px;
+  }
+
+  .step-dot.done {
+    background: var(--nonno-green);
+    opacity: 0.4;
+  }
+
+  /* Fixed bottom CTA */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--nonno-white);
+    border-top: 1px solid var(--nonno-border);
+    padding: 1rem;
+    z-index: 100;
+  }
+
+  /* Info tooltip */
+  .field-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: var(--nonno-green-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 1rem;
+    font-size: 0.82rem;
+    color: var(--nonno-green);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 600px) {
+    .step-container { padding: 2rem 1.5rem 7rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .options-grid.two-col { grid-template-columns: 1fr 1fr; }
+  }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<header class="header">
+  <a href="https://nonnoapp.com" class="logo">Nonno</a>
+  <span class="header-badge">Cuidadores Selecionados</span>
+</header>
 
-<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<section class="hero">
+  <span class="hero-badge">Orçamento Express</span>
+  <h1>Encontre o cuidador ideal para sua família</h1>
+  <p>Responda algumas perguntas e receba uma proposta personalizada em minutos</p>
+  <div class="trust-bar" style="margin-top:1rem;">
+    <span class="trust-item"><span class="trust-icon">✓</span> Profissionais verificados</span>
+    <span class="trust-item"><span class="trust-icon">✓</span> Sem contratos fechados</span>
+    <span class="trust-item"><span class="trust-icon">✓</span> Resposta em minutos</span>
+  </div>
+</section>
 
-<!-- STEP 1 -->
-<div id="step1" class="fade">
-<h2>O que você procura?</h2>
-<p>Este formulário é exclusivo para famílias</p>
-
-<button onclick="setType('cliente')">Preciso de um cuidador</button>
-<button class="secondary" onclick="setType('cuidador')">Sou cuidador procurando trabalho</button>
+<div class="progress-wrapper">
+  <div class="progress-label">
+    <span id="progress-text">Passo 1 de 5</span>
+    <span id="progress-pct">20%</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
 </div>
 
-<!-- BLOQUEIO -->
-<div id="blockUser" class="hidden fade">
-<h2>❌ Este não é um formulário de vagas</h2>
-<p>No momento não estamos contratando cuidadores.</p>
+<div class="step-container">
+
+  <!-- STEP 1: Quem é você? -->
+  <div class="step active" id="step-1">
+    <div class="steps-dots">
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+    </div>
+    <div class="step-header">
+      <div class="step-number">Etapa 1 de 5</div>
+      <div class="step-title">Por que você está aqui?</div>
+      <div class="step-desc">Isso nos ajuda a direcionar você corretamente.</div>
+    </div>
+
+    <div class="options-grid">
+      <button class="option-card" data-value="busco-cuidador" onclick="selectOption(this, 'intent')">
+        <span class="option-icon">👵</span>
+        <div>
+          <div class="option-label">Preciso de um cuidador</div>
+          <div class="option-sub">Para um familiar ou pessoa próxima</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="sou-cuidador" onclick="selectOption(this, 'intent')">
+        <span class="option-icon">💼</span>
+        <div>
+          <div class="option-label">Quero trabalhar como cuidador</div>
+          <div class="option-sub">Busco oportunidades de emprego</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="informacao" onclick="selectOption(this, 'intent')">
+        <span class="option-icon">❓</span>
+        <div>
+          <div class="option-label">Só estou conhecendo o Nonno</div>
+          <div class="option-sub">Tenho dúvidas sobre o serviço</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="alert-disqualify" id="alert-cuidador">
+      <h3>Você quer trabalhar como cuidador?</h3>
+      <p>Ótimo! Mas esta página é para quem <strong>contrata</strong> cuidadores. Para se cadastrar como profissional, <a href="https://nonnoapp.com/cadastro-cuidador/" target="_blank">clique aqui</a> e preencha o formulário correto. Nossa equipe de seleção entrará em contato.</p>
+    </div>
+
+    <div class="alert-disqualify" id="alert-informacao">
+      <h3>Tire suas dúvidas conosco!</h3>
+      <p>Nossa equipe está disponível para responder qualquer dúvida. Fale diretamente pelo <a href="https://wa.me/5548991361825" target="_blank">WhatsApp: (48) 9913-61825</a> ou continue o formulário para receber uma proposta.</p>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="btn-next" id="btn-next-1" onclick="goTo(2)" disabled>Continuar</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Localização -->
+  <div class="step" id="step-2">
+    <div class="steps-dots">
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+    </div>
+    <div class="step-header">
+      <div class="step-number">Etapa 2 de 5</div>
+      <div class="step-title">Onde o cuidador irá atender?</div>
+      <div class="step-desc">Digite a cidade onde o idoso mora ou é atendido.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Estado <span>*</span></label>
+      <select class="field-select" id="state-select" onchange="onStateChange()">
+        <option value="">Selecione o estado</option>
+        <option value="SC">Santa Catarina (SC)</option>
+        <option value="SP">São Paulo (SP)</option>
+        <option value="PR">Paraná (PR)</option>
+        <option value="RS">Rio Grande do Sul (RS)</option>
+        <option value="other">Outro estado</option>
+      </select>
+    </div>
+
+    <div class="field-group" id="city-group" style="display:none">
+      <label class="field-label">Cidade <span>*</span></label>
+      <div class="autocomplete-wrapper">
+        <input type="text" class="field-input" id="city-input" placeholder="Digite o nome da cidade..." autocomplete="off" oninput="onCityInput()" onblur="delayCloseDropdown()" onfocus="onCityInput()">
+        <div class="autocomplete-dropdown" id="city-dropdown"></div>
+      </div>
+      <div class="coverage-warning" id="coverage-warning">
+        ⚠️ Esta cidade não está na nossa área de atendimento atual. Você ainda pode enviar sua solicitação — nossa equipe irá verificar se conseguimos atendê-lo ou colocá-lo em lista de espera para expansão.
+      </div>
+    </div>
+
+    <div class="alert-coverage" id="alert-other-state">
+      <h3>Ainda não atendemos em todos os estados</h3>
+      <p>O Nonno atende atualmente em SC, SP, PR e RS. Se você está em outro estado, pode enviar sua solicitação e entraremos em contato assim que sua região for contemplada — ou indicaremos alternativas.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goTo(1)">← Voltar</button>
+      <button class="btn-next" id="btn-next-2" onclick="goTo(3)" disabled>Continuar</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Tipo de cuidado -->
+  <div class="step" id="step-3">
+    <div class="steps-dots">
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+    </div>
+    <div class="step-header">
+      <div class="step-number">Etapa 3 de 5</div>
+      <div class="step-title">Qual tipo de cuidado você precisa?</div>
+      <div class="step-desc">Selecione a opção que melhor descreve a necessidade.</div>
+    </div>
+
+    <div class="options-grid">
+      <button class="option-card" data-value="diario" onclick="selectOption(this, 'care_type')">
+        <span class="option-icon">🏠</span>
+        <div>
+          <div class="option-label">Cuidado diário / moradia</div>
+          <div class="option-sub">Cuidador fixo, período integral</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="horas" onclick="selectOption(this, 'care_type')">
+        <span class="option-icon">🕐</span>
+        <div>
+          <div class="option-label">Por horas ou plantões</div>
+          <div class="option-sub">Alguns períodos por semana</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="noturno" onclick="selectOption(this, 'care_type')">
+        <span class="option-icon">🌙</span>
+        <div>
+          <div class="option-label">Cuidado noturno</div>
+          <div class="option-sub">Acompanhamento durante a noite</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="findesemana" onclick="selectOption(this, 'care_type')">
+        <span class="option-icon">📅</span>
+        <div>
+          <div class="option-label">Fins de semana</div>
+          <div class="option-sub">Sábado, domingo ou feriados</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="hospitalar" onclick="selectOption(this, 'care_type')">
+        <span class="option-icon">🏥</span>
+        <div>
+          <div class="option-label">Acompanhamento hospitalar</div>
+          <div class="option-sub">Internações ou consultas</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="nao-sei" onclick="selectOption(this, 'care_type')">
+        <span class="option-icon">💬</span>
+        <div>
+          <div class="option-label">Não sei ainda</div>
+          <div class="option-sub">Preciso de orientação</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goTo(2)">← Voltar</button>
+      <button class="btn-next" id="btn-next-3" onclick="goTo(4)" disabled>Continuar</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Urgência e perfil -->
+  <div class="step" id="step-4">
+    <div class="steps-dots">
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+    </div>
+    <div class="step-header">
+      <div class="step-number">Etapa 4 de 5</div>
+      <div class="step-title">Para quando você precisa?</div>
+      <div class="step-desc">Isso nos ajuda a priorizar sua solicitação.</div>
+    </div>
+
+    <div class="options-grid two-col" style="margin-bottom:1.5rem">
+      <button class="option-card" data-value="urgente" onclick="selectOption(this, 'urgency')">
+        <span class="option-icon">🚨</span>
+        <div>
+          <div class="option-label">Urgente</div>
+          <div class="option-sub">Hoje ou amanhã</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="essa-semana" onclick="selectOption(this, 'urgency')">
+        <span class="option-icon">📆</span>
+        <div>
+          <div class="option-label">Esta semana</div>
+          <div class="option-sub">Nos próximos dias</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="esse-mes" onclick="selectOption(this, 'urgency')">
+        <span class="option-icon">🗓️</span>
+        <div>
+          <div class="option-label">Este mês</div>
+          <div class="option-sub">Nas próximas semanas</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="planejando" onclick="selectOption(this, 'urgency')">
+        <span class="option-icon">🔭</span>
+        <div>
+          <div class="option-label">Estou planejando</div>
+          <div class="option-sub">Sem data definida</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="step-header" style="margin-top:1.5rem">
+      <div class="step-title" style="font-size:1.1rem">Qual profissional você busca?</div>
+    </div>
+
+    <div class="options-grid">
+      <button class="option-card" data-value="acompanhante" onclick="selectOption(this, 'professional_type')">
+        <span class="option-icon">🤝</span>
+        <div>
+          <div class="option-label">Acompanhante</div>
+          <div class="option-sub">Companhia e suporte básico</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="cuidador" onclick="selectOption(this, 'professional_type')">
+        <span class="option-icon">👐</span>
+        <div>
+          <div class="option-label">Cuidador profissional</div>
+          <div class="option-sub">Formação específica na área</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="tecnico" onclick="selectOption(this, 'professional_type')">
+        <span class="option-icon">💉</span>
+        <div>
+          <div class="option-label">Técnico de enfermagem</div>
+          <div class="option-sub">Cuidados de saúde especializados</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="nao-sei-profissional" onclick="selectOption(this, 'professional_type')">
+        <span class="option-icon">🤔</span>
+        <div>
+          <div class="option-label">Não sei ainda</div>
+          <div class="option-sub">Preciso de orientação</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goTo(3)">← Voltar</button>
+      <button class="btn-next" id="btn-next-4" onclick="goTo(5)" disabled>Continuar</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Dados de contato -->
+  <div class="step" id="step-5">
+    <div class="steps-dots">
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+    </div>
+    <div class="step-header">
+      <div class="step-number">Etapa 5 de 5</div>
+      <div class="step-title">Quase lá! Seus dados de contato</div>
+      <div class="step-desc">Para enviarmos sua proposta personalizada.</div>
+    </div>
+
+    <div class="field-info">
+      🔒 Seus dados são usados apenas para envio da proposta. Não compartilhamos com terceiros.
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="nome">Seu nome completo <span>*</span></label>
+      <input type="text" class="field-input" id="nome" placeholder="Ex: Maria da Silva" oninput="validateStep5()">
+      <div class="field-error" id="erro-nome">Por favor, informe seu nome completo.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="whatsapp">WhatsApp <span>*</span></label>
+      <input type="tel" class="field-input" id="whatsapp" placeholder="(00) 00000-0000" oninput="formatPhone(this); validateStep5()" maxlength="15">
+      <div class="field-hint">Usaremos para enviar sua proposta e tirar dúvidas</div>
+      <div class="field-error" id="erro-whatsapp">Informe um número de WhatsApp válido.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="email">E-mail <span>*</span></label>
+      <input type="email" class="field-input" id="email" placeholder="seu@email.com" oninput="validateStep5()">
+      <div class="field-error" id="erro-email">Informe um e-mail válido.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="paciente">Nome do paciente (idoso)</label>
+      <input type="text" class="field-input" id="paciente" placeholder="Opcional">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="canal">Como nos encontrou?</label>
+      <select class="field-select" id="canal">
+        <option value="">Selecione</option>
+        <option value="pesquisa">Pesquisa no Google / Bing</option>
+        <option value="indicacao">Indicação (família ou amigos)</option>
+        <option value="redes-sociais">Redes sociais (Instagram, Facebook)</option>
+        <option value="propaganda">Propaganda (rádio, TV, panfleto)</option>
+        <option value="parceiros">Parceiros Nonno</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="obs">Alguma informação adicional?</label>
+      <textarea class="field-input" id="obs" rows="3" placeholder="Ex: O paciente tem Alzheimer e precisa de cuidados especiais..."></textarea>
+    </div>
+
+    <!-- Resumo -->
+    <div class="summary-card">
+      <h3>Resumo da sua solicitação</h3>
+      <div class="summary-row"><span class="label">Cidade</span><span class="value" id="sum-city">—</span></div>
+      <div class="summary-row"><span class="label">Tipo de cuidado</span><span class="value" id="sum-care">—</span></div>
+      <div class="summary-row"><span class="label">Urgência</span><span class="value" id="sum-urgency">—</span></div>
+      <div class="summary-row"><span class="label">Profissional</span><span class="value" id="sum-pro">—</span></div>
+    </div>
+
+    <div class="checkbox-wrapper">
+      <input type="checkbox" id="lgpd" onchange="validateStep5()">
+      <label for="lgpd">Li e aceito os <a href="https://nonnoapp.com/termos-de-uso-e-politica-de-privacidade-nonno/" target="_blank">Termos de Uso e Política de Privacidade</a> do Nonno. Concordo com o uso dos meus dados para envio do orçamento solicitado.</label>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goTo(4)">← Voltar</button>
+      <button class="btn-next" id="btn-submit" onclick="submitForm()" disabled>Receber minha proposta →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="step" id="step-success">
+    <div class="success-screen">
+      <div class="success-icon">✓</div>
+      <h2>Solicitação recebida!</h2>
+      <p>Nossa equipe já recebeu suas informações e entrará em contato pelo WhatsApp em breve com sua proposta personalizada.</p>
+      <a href="https://wa.me/5548991361825?text=Olá%2C%20acabei%20de%20preencher%20o%20formulário%20no%20site%20e%20gostaria%20de%20falar%20com%20a%20equipe!" class="whatsapp-btn">
+        💬 Falar pelo WhatsApp agora
+      </a>
+      <p style="font-size:0.82rem; color:var(--nonno-muted)">Você também receberá um e-mail de confirmação.</p>
+    </div>
+  </div>
+
 </div>
 
-<!-- STEP 2 -->
-<div id="step2" class="hidden fade">
-<h2>Onde será o atendimento?</h2>
-<input type="text" id="cidade" placeholder="Digite sua cidade" oninput="showSuggestions()">
-
-<div id="suggestions"></div>
-
-<button onclick="validateCity()">Continuar</button>
-</div>
-
-<!-- BLOQUEIO CIDADE -->
-<div id="blockCity" class="hidden fade">
-<h2>📍 Ainda não atendemos essa região</h2>
-<p>Mas estamos expandindo rapidamente.</p>
-</div>
-
-<!-- STEP 3 -->
-<div id="step3" class="hidden fade">
-<h2>Sobre o cuidado</h2>
-
-<select id="urgencia">
-<option value="">Urgência</option>
-<option value="alta">Preciso com urgência</option>
-<option value="baixa">Estou planejando</option>
-</select>
-
-<select id="periodo">
-<option value="">Período</option>
-<option>Integral</option>
-<option>Noturno</option>
-<option>Horas</option>
-</select>
-
-<button onclick="nextStep()">Continuar</button>
-</div>
-
-<!-- STEP 4 -->
-<div id="step4" class="hidden fade">
-<h2>Seus dados</h2>
-
-<input type="text" id="nome" placeholder="Nome">
-<input type="tel" id="telefone" placeholder="WhatsApp">
-
-<button onclick="submitForm()">Finalizar</button>
-</div>
-
-<div id="success" class="hidden fade">
-<h2>✅ Solicitação enviada!</h2>
-<p>Nossa equipe entrará em contato.</p>
-</div>
-
-</div>
+<!-- DEV score badge -->
+<div class="score-badge" id="score-badge">Score: 0</div>
 
 <script>
-
-let leadData = {
-  tipo: "",
-  cidade: "",
-  cidade_valida: false,
-  urgencia: "",
-  score: 0
+const COVERED_CITIES = {
+  SC: ["Florianópolis","Itapema","Blumenau","Itajaí","Campo Alegre","Palhoça","Balneário Camboriú","São José","Biguaçu","Jaraguá do Sul","Garopaba","Chapecó","Criciúma","Brusque","São Bento do Sul","Joinville","Laguna","Tubarão","Santo Amaro da Imperatriz","Gaspar","Imbituba","Bombinhas","Penha","Navegantes","Governador Celso Ramos","Balneário","Barra Velha","Camboriú","Indaial","Porto Belo","Tijucas"],
+  SP: ["São Paulo","Santo André","São Bernardo do Campo","São Caetano","Guarulhos","Santos","Campinas","Barueri","Taboão da Serra","Osasco","São Caetano do Sul","Jundiaí","Sumaré"],
+  PR: ["Curitiba","Campina Grande do Sul","São José dos Pinhais","Guarapuava","Colombo","Pinhais","Quatro Barras","Londrina"],
+  RS: ["Porto Alegre","Canoas","Arroio do Sul","Eldorado do Sul","Novo Hamburgo","Viamão","São Leopoldo","Sapucaia do Sul","Esteio","Cruzeiro do Sul","Estrela","Lajeado"]
 };
 
-const cidadesAtendidas = ["sorocaba","campinas","sao paulo"];
+const formData = {
+  intent: null,
+  state: null,
+  city: null,
+  cityInCoverage: false,
+  care_type: null,
+  urgency: null,
+  professional_type: null,
+};
 
-function updateProgress(p){
-  document.getElementById("progressBar").style.width = p + "%";
+let currentStep = 1;
+const totalSteps = 5;
+
+function updateProgress() {
+  const pct = Math.round((currentStep / totalSteps) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `Passo ${currentStep} de ${totalSteps}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
 }
 
-function setType(tipo){
-  leadData.tipo = tipo;
-  document.getElementById("step1").classList.add("hidden");
-
-  if(tipo === "cuidador"){
-    leadData.score -= 100;
-    document.getElementById("blockUser").classList.remove("hidden");
-  } else {
-    leadData.score += 50;
-    document.getElementById("step2").classList.remove("hidden");
-    updateProgress(25);
+function goTo(step) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  if (step === 'success') {
+    document.getElementById('step-success').classList.add('active');
+    document.querySelector('.progress-wrapper').style.display = 'none';
+    fireConversionEvents();
+    return;
   }
+  currentStep = step;
+  document.getElementById('step-' + step).classList.add('active');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (step === 5) updateSummary();
 }
 
-function normalize(text){
-  return text.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
+function selectOption(el, field) {
+  const group = el.closest('.options-grid');
+  group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  formData[field] = el.dataset.value;
 
-function showSuggestions(){
-  const input = normalize(document.getElementById("cidade").value);
-  const container = document.getElementById("suggestions");
-  container.innerHTML = "";
+  if (field === 'intent') {
+    document.getElementById('alert-cuidador').classList.remove('show');
+    document.getElementById('alert-informacao').classList.remove('show');
+    const btn = document.getElementById('btn-next-1');
 
-  cidadesAtendidas.forEach(c => {
-    if(c.includes(input) && input.length > 1){
-      const div = document.createElement("div");
-      div.className = "suggestion";
-      div.innerText = c;
-      div.onclick = () => {
-        document.getElementById("cidade").value = c;
-        container.innerHTML = "";
-      };
-      container.appendChild(div);
+    if (el.dataset.value === 'sou-cuidador') {
+      document.getElementById('alert-cuidador').classList.add('show');
+      btn.disabled = true;
+    } else if (el.dataset.value === 'informacao') {
+      document.getElementById('alert-informacao').classList.add('show');
+      btn.disabled = false;
+    } else {
+      btn.disabled = false;
     }
-  });
+  }
+
+  if (field === 'care_type') {
+    document.getElementById('btn-next-3').disabled = false;
+  }
+
+  if (field === 'urgency' || field === 'professional_type') {
+    const u = formData.urgency;
+    const p = formData.professional_type;
+    document.getElementById('btn-next-4').disabled = !(u && p);
+  }
+
+  updateScore();
 }
 
-function validateCity(){
-  const cidade = normalize(document.getElementById("cidade").value);
+function onStateChange() {
+  const val = document.getElementById('state-select').value;
+  formData.state = val;
+  formData.city = null;
+  formData.cityInCoverage = false;
+  document.getElementById('city-input').value = '';
+  document.getElementById('coverage-warning').classList.remove('show');
+  document.getElementById('btn-next-2').disabled = true;
 
-  leadData.cidade = cidade;
-
-  document.getElementById("step2").classList.add("hidden");
-
-  if(cidadesAtendidas.includes(cidade)){
-    leadData.cidade_valida = true;
-    leadData.score += 30;
-
-    document.getElementById("step3").classList.remove("hidden");
-    updateProgress(50);
+  if (val === 'other') {
+    document.getElementById('city-group').style.display = 'none';
+    document.getElementById('alert-other-state').classList.add('show');
+    document.getElementById('btn-next-2').disabled = false;
+  } else if (val) {
+    document.getElementById('city-group').style.display = 'block';
+    document.getElementById('alert-other-state').classList.remove('show');
   } else {
-    leadData.score -= 50;
-    document.getElementById("blockCity").classList.remove("hidden");
+    document.getElementById('city-group').style.display = 'none';
+    document.getElementById('alert-other-state').classList.remove('show');
   }
+  updateScore();
 }
 
-function nextStep(){
-  leadData.urgencia = document.getElementById("urgencia").value;
+function onCityInput() {
+  const state = formData.state;
+  const query = document.getElementById('city-input').value.toLowerCase().trim();
+  const dropdown = document.getElementById('city-dropdown');
 
-  if(leadData.urgencia === "alta"){
-    leadData.score += 10;
+  if (!state || state === 'other' || query.length < 2) {
+    dropdown.classList.remove('open');
+    return;
   }
 
-  document.getElementById("step3").classList.add("hidden");
-  document.getElementById("step4").classList.remove("hidden");
-  updateProgress(75);
-}
+  const cities = COVERED_CITIES[state] || [];
+  // Build list: covered matches first, then allow free text
+  const covered = cities.filter(c => c.toLowerCase().includes(query));
 
-function submitForm(){
-
-  const telefone = document.getElementById("telefone").value;
-
-  if(telefone.replace(/\D/g, "").length >= 10){
-    leadData.score += 10;
-  }
-
-  document.getElementById("step4").classList.add("hidden");
-  document.getElementById("success").classList.remove("hidden");
-  updateProgress(100);
-
-  window.dataLayer = window.dataLayer || [];
-
-  window.dataLayer.push({
-    event: "lead_submit",
-    ...leadData
+  let html = '';
+  covered.forEach(c => {
+    html += `<div class="autocomplete-item covered" onclick="selectCity('${c}', true)">
+      <span>${c}</span><span class="badge">Atendemos aqui ✓</span>
+    </div>`;
   });
 
-  if(leadData.score >= 70){
-    window.dataLayer.push({
-      event: "lead_qualificado",
-      ...leadData
+  // If typed city not in covered list
+  if (query.length >= 3 && !covered.some(c => c.toLowerCase() === query)) {
+    html += `<div class="autocomplete-item not-covered" onclick="selectCity('${capitalize(document.getElementById('city-input').value.trim())}', false)">
+      <span>${capitalize(document.getElementById('city-input').value.trim())}</span><span class="badge">Verificar cobertura</span>
+    </div>`;
+  }
+
+  dropdown.innerHTML = html || '<div class="autocomplete-item" style="color:var(--nonno-muted);cursor:default">Nenhuma cidade encontrada</div>';
+  dropdown.classList.add('open');
+}
+
+function selectCity(city, inCoverage) {
+  document.getElementById('city-input').value = city;
+  document.getElementById('city-dropdown').classList.remove('open');
+  formData.city = city;
+  formData.cityInCoverage = inCoverage;
+
+  if (!inCoverage) {
+    document.getElementById('coverage-warning').classList.add('show');
+  } else {
+    document.getElementById('coverage-warning').classList.remove('show');
+  }
+
+  document.getElementById('btn-next-2').disabled = false;
+  updateScore();
+}
+
+function delayCloseDropdown() {
+  setTimeout(() => document.getElementById('city-dropdown').classList.remove('open'), 200);
+}
+
+function capitalize(str) {
+  return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+}
+
+function formatPhone(input) {
+  let v = input.value.replace(/\D/g, '');
+  if (v.length > 11) v = v.slice(0, 11);
+  if (v.length <= 10) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+  else v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+  input.value = v;
+}
+
+function validateStep5() {
+  const nome = document.getElementById('nome').value.trim();
+  const wa = document.getElementById('whatsapp').value.replace(/\D/g,'');
+  const email = document.getElementById('email').value.trim();
+  const lgpd = document.getElementById('lgpd').checked;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const phoneOk = wa.length >= 10;
+  const nameOk = nome.split(' ').length >= 2;
+
+  document.getElementById('btn-submit').disabled = !(nameOk && phoneOk && emailOk && lgpd);
+  updateScore();
+}
+
+function updateSummary() {
+  const careMap = {diario:'Diário / Moradia', horas:'Por horas/plantões', noturno:'Noturno', findesemana:'Fins de semana', hospitalar:'Hospitalar', 'nao-sei':'A definir'};
+  const urgMap = {urgente:'Urgente (hoje/amanhã)', 'essa-semana':'Esta semana', 'esse-mes':'Este mês', planejando:'Planejando'};
+  const proMap = {acompanhante:'Acompanhante', cuidador:'Cuidador Profissional', tecnico:'Técnico de Enfermagem', 'nao-sei-profissional':'A definir'};
+
+  document.getElementById('sum-city').textContent = formData.city ? `${formData.city} / ${formData.state}` : '—';
+  document.getElementById('sum-care').textContent = careMap[formData.care_type] || '—';
+  document.getElementById('sum-urgency').textContent = urgMap[formData.urgency] || '—';
+  document.getElementById('sum-pro').textContent = proMap[formData.professional_type] || '—';
+}
+
+// =============================================
+// LEAD SCORING ENGINE
+// =============================================
+function calculateScore() {
+  let score = 0;
+  const reasons = [];
+
+  // --- DISQUALIFIERS (negative) ---
+  if (formData.intent === 'sou-cuidador') {
+    return { score: -100, qualified: false, reasons: ['Busca emprego como cuidador'] };
+  }
+
+  // --- COVERAGE (weight: 40pts) ---
+  if (formData.state === 'other') {
+    score -= 40;
+    reasons.push('Estado fora de cobertura');
+  } else if (formData.city && !formData.cityInCoverage) {
+    score += 10;
+    reasons.push('Cidade fora de cobertura mas estado coberto');
+  } else if (formData.cityInCoverage) {
+    score += 40;
+    reasons.push('Cidade coberta ✓');
+  }
+
+  // --- URGENCY (weight: 30pts) ---
+  const urgScore = { urgente: 30, 'essa-semana': 25, 'esse-mes': 15, planejando: 5 };
+  if (formData.urgency) {
+    score += urgScore[formData.urgency] || 0;
+    reasons.push(`Urgência: ${formData.urgency}`);
+  }
+
+  // --- PROFESSIONAL TYPE (weight: 15pts) ---
+  const proScore = { tecnico: 15, cuidador: 12, acompanhante: 10, 'nao-sei-profissional': 5 };
+  if (formData.professional_type) {
+    score += proScore[formData.professional_type] || 0;
+  }
+
+  // --- CARE TYPE (weight: 15pts) ---
+  const careScore = { diario: 15, hospitalar: 12, noturno: 12, horas: 10, findesemana: 8, 'nao-sei': 5 };
+  if (formData.care_type) {
+    score += careScore[formData.care_type] || 0;
+  }
+
+  // Qualified: score >= 50 AND in coverage (state-level at minimum)
+  const stateOk = formData.state && formData.state !== 'other';
+  const qualified = score >= 50 && stateOk;
+
+  return { score: Math.max(0, score), qualified, reasons };
+}
+
+function updateScore() {
+  const { score, qualified } = calculateScore();
+  // DEV badge (remove in production)
+  // const badge = document.getElementById('score-badge');
+  // badge.style.display = 'block';
+  // badge.textContent = `Score: ${score} | ${qualified ? '✓ Qualificado' : '✗ Não qualificado'}`;
+  // badge.style.background = qualified ? '#16A34A' : '#DC2626';
+}
+
+// =============================================
+// GTM / ANALYTICS EVENTS
+// =============================================
+function pushDataLayer(event, data) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...data });
+}
+
+function fireConversionEvents() {
+  const { score, qualified, reasons } = calculateScore();
+
+  const nome = document.getElementById('nome').value.trim();
+  const wa = document.getElementById('whatsapp').value;
+  const email = document.getElementById('email').value.trim();
+  const canal = document.getElementById('canal').value;
+
+  // Base event — all submissions
+  pushDataLayer('nonno_form_submit', {
+    form_name: 'orcamento_express',
+    city: formData.city || '',
+    state: formData.state || '',
+    city_in_coverage: formData.cityInCoverage,
+    care_type: formData.care_type || '',
+    urgency: formData.urgency || '',
+    professional_type: formData.professional_type || '',
+    acquisition_channel: canal || '',
+    lead_score: score,
+  });
+
+  // QUALIFIED lead event — only fires if score >= 50 and in covered area
+  if (qualified) {
+    pushDataLayer('nonno_lead_qualificado', {
+      form_name: 'orcamento_express',
+      city: formData.city || '',
+      state: formData.state || '',
+      care_type: formData.care_type || '',
+      urgency: formData.urgency || '',
+      professional_type: formData.professional_type || '',
+      lead_score: score,
+      acquisition_channel: canal || '',
+      value: urgencyToValue(formData.urgency),
+      currency: 'BRL',
     });
   }
 
-  console.log("Lead final:", leadData);
-
+  console.log('[Nonno] Lead score:', score, '| Qualified:', qualified, '| Reasons:', reasons);
 }
 
-</script>
+function urgencyToValue(urgency) {
+  // Assign estimated conversion value based on urgency (for Smart Bidding signals)
+  const values = { urgente: 150, 'essa-semana': 100, 'esse-mes': 60, planejando: 20 };
+  return values[urgency] || 50;
+}
 
+function submitForm() {
+  // Basic validation
+  const nome = document.getElementById('nome').value.trim();
+  const wa = document.getElementById('whatsapp').value.replace(/\D/g,'');
+  const email = document.getElementById('email').value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  let ok = true;
+
+  if (nome.split(' ').length < 2) {
+    document.getElementById('erro-nome').classList.add('show');
+    document.getElementById('nome').classList.add('error');
+    ok = false;
+  } else {
+    document.getElementById('erro-nome').classList.remove('show');
+    document.getElementById('nome').classList.remove('error');
+  }
+
+  if (wa.length < 10) {
+    document.getElementById('erro-whatsapp').classList.add('show');
+    document.getElementById('whatsapp').classList.add('error');
+    ok = false;
+  } else {
+    document.getElementById('erro-whatsapp').classList.remove('show');
+    document.getElementById('whatsapp').classList.remove('error');
+  }
+
+  if (!emailOk) {
+    document.getElementById('erro-email').classList.add('show');
+    document.getElementById('email').classList.add('error');
+    ok = false;
+  } else {
+    document.getElementById('erro-email').classList.remove('show');
+    document.getElementById('email').classList.remove('error');
+  }
+
+  if (!ok) return;
+
+  goTo('success');
+}
+
+updateProgress();
+</script>
 </body>
 </html>
